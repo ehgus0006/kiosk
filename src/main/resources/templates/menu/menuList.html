@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{~/js/jquery.min.js}"></script>
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr class="table-secondary">
+        <th>메뉴이름</th>
+        <th>사진</th>
+        <th>메뉴가격</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="menus : ${menuList}">
+        <td th:text="${menus.menu_name}">메뉴이름</td>
+<!--                        str += "<img src='/display?fileName=" + menuImage.thumbnailURL + "'>";-->
+        <td><img th:src="@{/display(fileName=${menus.img_url})}"></td>
+        <td th:text="${menus.menu_price}">메뉴가격</td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

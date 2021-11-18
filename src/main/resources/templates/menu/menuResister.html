@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{~/js/jquery.min.js}"></script>
+</head>
+<body>
+
+<form id="uploadForm">
+    메뉴 이름 : <input type="text" name="menu_name" id="menu_name" required><br>
+    메뉴 가격 : <input type="text" name="menu_price" id="menu_price" required><br>
+    이미지 선택 : <input type="file">
+    <button type="button" id="uploadBtn">업로드</button>
+    <br>
+    <div id="uploadResult"></div>
+    <button id="submit" type="button">전송</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        $('#submit').click(function () {
+            var menu_name = $('#menu_name').val();
+            var menu_price = $('#menu_price').val();
+            var img_url = $('#img_url').val();
+
+            var data = {
+                "menu_name": menu_name,
+                "menu_price": menu_price,
+                "img_url": img_url
+            };
+
+            console.log(data.menu_name)
+            console.log(data.menu_price)
+            console.log(data.img_url)
+
+            $.ajax({
+                url: '/menuResister',
+                type: 'post',
+                dataType: "json",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    alert("메뉴 등록하셨습니다.");
+                    location.href = "/menuList";
+                },
+                error: function () {
+                    alert("에러 입니다")
+                }
+            })
+
+        });
+
+        $('#uploadBtn').click(function () {
+
+            var formData = new FormData();
+            var inputFile = $("input[type='file']");
+            var files = inputFile[0].files;
+
+            console.log(files);
+
+            formData.append("file", files[0]);
+
+
+            // 실제 업로드 부분
+            $.ajax({
+                url: '/uploadFile',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    showUploadedImage(result);
+                    // showUploadedImages(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    alert("실패");
+
+                }
+            }); // ajax end
+
+            function showUploadedImage(menuImage) {
+                console.log(menuImage + "====================================");
+                var divArea = $("#uploadResult");
+
+                // var basic_url = "C:\\menuFile";
+                // var folderPath = menuImage.folderPath;
+                // var filename = menuImage.fileName;
+                var thumbnailURL  = menuImage.thumbnailURL;
+                var img_url = thumbnailURL;
+                console.log(img_url);
+                var str = "";
+                str += "<div>";
+                str += "<input type='hidden' id='img_url' value='" + img_url +"'>"
+                str += "<img src='/display?fileName=" + menuImage.thumbnailURL + "'>";
+                str += "<button class='removeBtn' data-name='" + menuImage.imageURL + "'>삭제</button>";
+                str += "</div>"
+                divArea.append(str);
+            }
+        });
+
+        // 사진 삭제
+        $('#uploadResult').on("click", ".removeBtn", function (e) {
+
+            var target = $(this);
+            var fileName = target.data("name");
+            var targetDiv = $(this).closest("div");
+            console.log(fileName);
+
+            $.post('/removeFile', {fileName: fileName}, function (result) {
+                console.log(result);
+                if (result === true) {
+                    targetDiv.remove();
+                }
+            })
+        })
+
+    });
+
+</script>
+
+
+</body>
+</html>
