@@ -6,6 +6,7 @@ import com.dohyeon.kiosk.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class MenuServiceImp implements MenuService{
 
     private final MenuRepository menuRepository;
 
+    @Transactional
     @Override
     public Long menuResister(MenuDTO menuDTO) {
 
@@ -33,6 +35,7 @@ public class MenuServiceImp implements MenuService{
         return menu.getMenu_code();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<MenuDTO> menuList() {
 
