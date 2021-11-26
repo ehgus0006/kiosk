@@ -3,27 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        img {
+            border: 0;
+            vertical-align: middle;
+        }
+
+        .container {
+            width: 90%;
+            margin: 10px auto;
+        }
+
+        .container .menu {
+            text-align: center;
+        }
+
+        .container .menu ul li {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 1px solid orange;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .container .menu ul li:hover,
+        .container .menu ul li.on {
+            background-color: orange;
+            color: #fff;
+        }
+
+        .container .item-wrap {
+            text-align: center;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+
+        .container .item-wrap .item {
+            float: left;
+            width: 30%;
+            margin: 5px;
+            padding: 2px;
+        }
+
+        .container .item-wrap .item img {
+            width: 100%;
+        }
+    </style>
     <script th:src="@{~/js/jquery.min.js}"></script>
+    <script th:src="@{~/js/isotope.pkgd.min.js}"></script>
+    <script th:src="@{~/js/imagesloaded.pkgd.min.js}"></script>
+
 </head>
 <body>
-<table class="table table-hover">
-    <thead>
-    <tr class="table-secondary">
-        <th>메뉴이름</th>
-        <th>사진</th>
-        <th>메뉴가격</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="menus : ${menuList}">
-        <td th:text="${menus.menu_name}">메뉴이름</td>
-<!--                        str += "<img src='/display?fileName=" + menuImage.thumbnailURL + "'>";-->
-        <td><img th:src="@{/display(fileName=${menus.img_url})}"></td>
-        <td th:text="${menus.menu_price}">메뉴가격</td>
-    </tr>
-    </tbody>
-</table>
 
 
+<div class="container">
+    <div class="menu">
+        <ul>
+            <li data-filter=".SPAGHETTI">SPAGHETTI&RISOTTO</li>
+            <li data-filter=".SPECIAL">SPECIAL</li>
+            <li data-filter=".PIZZA">PIZZA</li>
+            <li data-filter=".SIDE">SIDE</li>
+        </ul>
+    </div>
+    <div class="item-wrap" th:each="menus : ${menuList}">
+        <input type="hidden" th:value="${menus.admin_code}" id="admin_code" name="admin_code">
+        <div class="item SPAGHETTI" th:if="${menus.category == 'SPAGHETTI'}">
+            <img th:src="@{/display(fileName=${menus.img_url})}" alt="500x500"><br>
+            메뉴이름 : <td th:text="${menus.menu_name}"></td><br>
+            메뉴가격 : <td th:text="${menus.menu_price}"></td><br>
+            <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
+        </div>
+        <div class="item SPECIAL" th:if="${menus.category == 'SPECIAL'}">
+            <img th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+
+        </div>
+        <div class="item PIZZA" th:if="${menus.category == 'PIZZA'}">
+            <img th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+
+        </div>
+        <div class="item SIDE" th:if="${menus.category == 'SIDE'}">
+            <img th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+
+        </div>
+    </div>
+</div>
+
+<a href="/admin/adminPage">이전</a>
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".item-wrap").imagesLoaded(function () {
+            $(".item-wrap").isotope({
+                itemSelector: ".item"
+            }) // isotope end
+
+        }) // imagesLoaded end
+
+        $(".container .menu ul li").click(function () {
+            let i = $(this).index();
+            $(".container .menu ul li").removeClass("on").eq(i).addClass("on")
+            let selector = $(this).attr("data-filter");
+
+            $(".item-wrap").isotope({
+                filter: selector
+            }) // isotope end
+        }) //click end
+    }); //jquery end
+
+</script>
 </body>
 </html>

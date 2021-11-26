@@ -1,6 +1,8 @@
 package com.dohyeon.kiosk.controller;
 
 import com.dohyeon.kiosk.dto.MenuDTO;
+import com.dohyeon.kiosk.entity.Menu;
+import com.dohyeon.kiosk.repository.MenuRepository;
 import com.dohyeon.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
+    private final MenuRepository menuRepository;
 
     @GetMapping("/")
     public String index() {
@@ -38,6 +41,16 @@ public class MenuController {
         model.addAttribute("menuList", menuList);
 
         return "/menu/menuList";
+    }
+//                <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
+    @GetMapping("/menuUpdate")
+    public String menuUpdate(Long menu_code, Model model) {
+        log.info("업데이트 들어옴" + menu_code);
+
+        Menu menu = menuRepository.findById(menu_code).get();
+        model.addAttribute("menu", menu);
+
+        return "/menu/menuUpdate";
     }
 
 

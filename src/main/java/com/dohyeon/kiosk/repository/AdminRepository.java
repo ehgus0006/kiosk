@@ -13,4 +13,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     @Query("select a from Admin a where a.user_id=:user_id")
     Optional<Admin> loginCheck(String user_id);
+
+
 }

@@ -42,7 +42,14 @@ public class MenuApiController {
         log.info(menuDTO.getMenu_name());
         log.info(menuDTO.getMenu_price());
         log.info(menuDTO.getImg_url());
+        log.info(menuDTO.getAdmin_code());
+        log.info(menuDTO.getMenu_priority());
+        log.info(menuDTO.getCategory());
+
+
         Long menuId = menuService.menuResister(menuDTO);
+
+
 
         return new ResponseEntity<>(menuId,HttpStatus.OK);
     }

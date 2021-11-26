@@ -28,5 +28,17 @@ public class Menu extends BaseEntity{
     // 메뉴 상태 (0 등록중 , 1 등록 x) 마이페이지 수정가능
     private String menu_stat;
 
+//    메뉴 표시순서 1 2 3 4 5 6 // 수정  1 2 3 4 5 6  1
+    private int menu_priority;
+
+    // SPAGHETTI, SPECIAL, PIZZA, SIDE
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_code")
+    private Admin admin;
+
+
 
 }

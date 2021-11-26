@@ -1,6 +1,8 @@
 package com.dohyeon.kiosk.service;
 
 import com.dohyeon.kiosk.dto.MenuDTO;
+import com.dohyeon.kiosk.entity.Admin;
+import com.dohyeon.kiosk.entity.Category;
 import com.dohyeon.kiosk.entity.Menu;
 import com.dohyeon.kiosk.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,16 @@ public class MenuServiceImp implements MenuService{
     @Override
     public Long menuResister(MenuDTO menuDTO) {
 
+
+
         Menu menu = Menu.builder()
                 .menu_name(menuDTO.getMenu_name())
                 .menu_price(menuDTO.getMenu_price())
                 .img_url(menuDTO.getImg_url())
+                .menu_priority(menuDTO.getMenu_priority())
+                .category(Category.valueOf(menuDTO.getCategory()))
                 .menu_stat("0")
+                .admin(Admin.builder().admin_code(menuDTO.getAdmin_code()).build())
                 .build();
 
         menuRepository.save(menu);
@@ -39,7 +46,7 @@ public class MenuServiceImp implements MenuService{
     @Override
     public List<MenuDTO> menuList() {
 
-        return menuRepository.findAll().stream()
+        return menuRepository.findpriority().stream()
                 .map(MenuDTO::new)
                 .collect(Collectors.toList());
     }

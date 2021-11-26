@@ -8,8 +8,27 @@
 <body>
 
 <form id="uploadForm">
+    <input type="hidden" id="admin_code" name="admin_code" th:value="${session.admin_code}">
     메뉴 이름 : <input type="text" name="menu_name" id="menu_name" required><br>
     메뉴 가격 : <input type="text" name="menu_price" id="menu_price" required><br>
+    메뉴 순서 : <select id="menu_priority">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+            </select>
+    메뉴 카테고리 : <select id="category">
+    <option value="SPAGHETTI">SPAGHETTI</option>
+    <option value="SPECIAL">SPECIAL</option>
+    <option value="PIZZA">PIZZA</option>
+    <option value="SIDE">SIDE</option>
+                </select><br>
     이미지 선택 : <input type="file">
     <button type="button" id="uploadBtn">업로드</button>
     <br>
@@ -21,19 +40,25 @@
     $(document).ready(function () {
 
         $('#submit').click(function () {
+            var admin_code = $('#admin_code').val();
             var menu_name = $('#menu_name').val();
             var menu_price = $('#menu_price').val();
             var img_url = $('#img_url').val();
+            var menu_priority =  $('#menu_priority').val();
+            var category =  $('#category').val();
 
             var data = {
+                "admin_code": admin_code,
                 "menu_name": menu_name,
                 "menu_price": menu_price,
-                "img_url": img_url
+                "img_url": img_url,
+                "menu_priority": menu_priority,
+                "category": category
             };
 
-            console.log(data.menu_name)
-            console.log(data.menu_price)
-            console.log(data.img_url)
+            console.log(data.menu_priority)
+            console.log(data.category)
+            console.log(data.admin_code)
 
             $.ajax({
                 url: '/menuResister',
@@ -92,12 +117,12 @@
                 // var basic_url = "C:\\menuFile";
                 // var folderPath = menuImage.folderPath;
                 // var filename = menuImage.fileName;
-                var thumbnailURL  = menuImage.thumbnailURL;
+                var thumbnailURL = menuImage.thumbnailURL;
                 var img_url = thumbnailURL;
                 console.log(img_url);
                 var str = "";
                 str += "<div>";
-                str += "<input type='hidden' id='img_url' value='" + img_url +"'>"
+                str += "<input type='hidden' id='img_url' value='" + img_url + "'>"
                 str += "<img src='/display?fileName=" + menuImage.thumbnailURL + "'>";
                 str += "<button class='removeBtn' data-name='" + menuImage.imageURL + "'>삭제</button>";
                 str += "</div>"
