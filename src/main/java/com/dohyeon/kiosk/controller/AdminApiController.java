@@ -22,10 +22,20 @@ public class AdminApiController {
 
     private final AdminService adminService;
 
+    // Json Id 중복검사
+    @PostMapping("/idChk")
+    public String IdChk(String user_id) throws Exception {
+
+        System.out.println(user_id);
+        String str = adminService.IdChk(user_id);
+
+        return str;
+    }
+
     @PostMapping("/adminJoinPage")
     public ResponseEntity<String> join(@RequestBody @Validated AdminDTO adminDTO, BindingResult bindingResult, Model model) {
         log.info(adminDTO);
-
+        System.out.println("====================================");
 //        // validation check
         if (bindingResult.hasErrors()) {
             List<ObjectError> errorList = bindingResult.getAllErrors();
@@ -35,6 +45,8 @@ public class AdminApiController {
                 return new ResponseEntity<>(defaultMessage, HttpStatus.BAD_REQUEST);
             }
         }
+        System.out.println("====================================");
+
 
         return new ResponseEntity<>(adminService.adminResister(adminDTO), HttpStatus.OK);
     }

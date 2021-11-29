@@ -8,4 +8,6 @@ public interface AdminService {
     String adminResister(AdminDTO adminDTO);
 
     String loginCheck(AdminDTO adminDTO);
+
+    String IdChk(String user_id);
 }

@@ -82,83 +82,65 @@
             <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
             <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500"><br>
             <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="500x500"><br>
-            메뉴이름 : <td th:text="${menus.menu_name}"></td><br>
-            메뉴가격 : <td th:text="${menus.menu_price}"></td><br>
+            메뉴이름 :
+            <td th:text="${menus.menu_name}"></td>
+            <br>
+            메뉴가격 :
+            <td th:text="${menus.menu_price}"></td>
+            <br>
             <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
             <button type="button" class="deleteBtn">메뉴삭제하기</button>
         </div>
         <div class="item SPECIAL" th:if="${menus.category == 'SPECIAL'}">
             <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-
-
-            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500"><br>
             <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="500x500"><br>
-
-            메뉴이름 : <td th:value="${menus.menu_name}" id="menu_name" class="menu_name"></td><br>
+            메뉴이름 :
+            <td th:text="${menus.menu_name}"></td>
+            <br>
+            메뉴가격 :
+            <td th:text="${menus.menu_price}"></td>
+            <br>
             <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
             <button type="button" class="deleteBtn">메뉴삭제하기</button>
-            <button type="button" class="itemBtn">장바구니</button>
 
         </div>
         <div class="item PIZZA" th:if="${menus.category == 'PIZZA'}">
             <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-
-            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500"><br>
             <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="500x500"><br>
-            메뉴이름 : <td th:text="${menus.menu_name}"></td><br>
-            메뉴가격 : <td th:text="${menus.menu_price}"></td><br>
+            메뉴이름 :
+            <td th:text="${menus.menu_name}"></td>
+            <br>
+            메뉴가격 :
+            <td th:text="${menus.menu_price}"></td>
+            <br>
             <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
             <button type="button" class="deleteBtn">메뉴삭제하기</button>
 
         </div>
         <div class="item SIDE" th:if="${menus.category == 'SIDE'}">
-            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500">
+            <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
+            <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="500x500"><br>
             <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="500x500"><br>
-            메뉴이름 : <td th:text="${menus.menu_name}"></td><br>
-            메뉴가격 : <td th:text="${menus.menu_price}"></td><br>
+            메뉴이름 :
+            <td th:text="${menus.menu_name}"></td>
+            <br>
+            메뉴가격 :
+            <td th:text="${menus.menu_price}"></td>
+            <br>
             <a th:href="@{/menuUpdate(menu_code = ${menus.menu_code})}">메뉴수정하기</a>
             <button type="button" class="deleteBtn">메뉴삭제하기</button>
-            <button type="button" class="itemBtn">장바구니</button>
-
-
         </div>
     </div>
 </div>
 
-<div class="itemList">
-
-</div>
 
 <a href="/admin/adminPage">이전</a>
 
 <script>
 
     $(document).ready(function () {
-
-        $('.itemBtn').click(function () {
-
-            // (this).siblings('.menu_code').val()
-
-            var menu_price = $(this).siblings('.menu_price').val()
-            var menu_name = $('#menu_name').val();
-
-
-
-            console.log(menu_price)
-            console.log(menu_name)
-
-            var str = "";
-
-            str += "<td>" + menu_price +"</td>"
-            str += "<button type='button' id='addNum' value='수량추가'>"
-            str += "<button type='button' id='minusNum' value='수량빼기'>"
-
-            $('.itemList').append(str);
-
-
-        });
 
         $('.deleteBtn').click(function () {
             console.log($(this).siblings('.menu_code').val())
@@ -181,7 +163,7 @@
                     }
                 });
 
-            };
+            }
         });
 
         $(".item-wrap").imagesLoaded(function () {

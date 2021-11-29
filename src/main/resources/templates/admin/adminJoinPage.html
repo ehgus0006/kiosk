@@ -9,8 +9,11 @@
 <body>
 
 <form id="JoinForm">
-    아이디 : <input type="text" id="user_id" name="user_id"><br>
-    비밀번호 : <input type="password" id="password" name="password"><br>
+    아이디 : <input type="text" id="user_id" name="user_id" placeholder="아이디를 입력하세요"><br>
+    <span id="chkIdmsg"></span><br>
+    비밀번호 : <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요"><br>
+    비밀번호 확인 : <input type="password" id="repassword" name="repassword" placeholder="비밀번호를 입력하세요"/><br>
+    <span id="chkmsg" name="chkmsg"></span><br>
     직급 : <select id="position" name="position">
     <!--     STAFF, SUPERVISOR , MANAGER-->
     <option value="STAFF">STAFF</option>
@@ -22,6 +25,49 @@
 
 <script>
     $(document).ready(function () {
+
+        let user_id = document.getElementById('user_id');
+        let repassword = document.getElementById('repassword');
+
+        user_id.addEventListener("keyup", idChk);
+        repassword.addEventListener("keyup", pwdCheck);
+
+        // 아이디 중복확인
+        function idChk() {
+            $.ajax({
+                url: "/admin/idChk",
+                type: "POST",
+                data: {
+                    user_id: $("#user_id").val(),
+                },
+                success: function (data) {
+                    if ($.trim(data) == "YES") {
+                        $("#chkIdmsg").text("사용중인 아이디입니다.");
+                        $("#chkIdmsg").css("color", "red");
+                    } else {
+                        $("#chkIdmsg").text("사용가능한 아이디입니다");
+                        $("#chkIdmsg").css("color", "blue");
+                    }
+                },
+            });
+        }
+
+        // 비밀번호 일치 여부
+        function pwdCheck() {
+            var frm = $('#JoinForm');
+            var msg = document.getElementById("chkmsg");
+
+            var pw = $('#password').val();
+            var repw = $('#repassword').val();
+
+            if (pw != repw) {
+                msg.innerHTML = "비밀번호가 일치하지 않습니다.";
+                msg.style.color = "red";
+            } else {
+                msg.innerHTML = "비밀번호가 일치합니다.";
+                msg.style.color = "blue";
+            }
+        }
 
         $('#JoinFormBtn').click(function () {
 
@@ -41,15 +87,16 @@
             $.ajax({
                 url: '/admin/adminJoinPage',
                 type: 'post',
-                dataType: "json",
+                dataType: "text",
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
-                success: function (data) {
+                success: function (result) {
+                    console.log(result)
                     alert("회원가입에 성공하였습니다.");
                     location.href = "/admin/adminPage";
                 },
                 error: function (request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    alert(request.responseText);
 
                 }
             });

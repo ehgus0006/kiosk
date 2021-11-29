@@ -53,4 +53,18 @@ public class AdminServiceImp implements AdminService {
             return "2";
         }
     }
+
+    // 중복검사
+    @Transactional
+    @Override
+    public String IdChk(String user_id) {
+        Admin admin = adminRepository.findByUserId(user_id);
+        if (admin != null) {
+            return "YES";
+        }else{
+            return "NO";
+        }
+    }
+
+
 }
