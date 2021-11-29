@@ -31,6 +31,7 @@ public class MenuServiceImp implements MenuService{
                 .menu_name(menuDTO.getMenu_name())
                 .menu_price(menuDTO.getMenu_price())
                 .img_url(menuDTO.getImg_url())
+                .real_img_url(menuDTO.getReal_img_url())
                 .menu_priority(menuDTO.getMenu_priority())
                 .category(Category.valueOf(menuDTO.getCategory()))
                 .menu_stat("0")
@@ -49,5 +50,23 @@ public class MenuServiceImp implements MenuService{
         return menuRepository.findpriority().stream()
                 .map(MenuDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void menuUpdate(MenuDTO menuDTO) {
+
+        Long menu_code = menuDTO.getMenu_code();
+        Menu menu = menuRepository.findById(menu_code).orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다. id=" + menu_code));
+
+        menu.update(menuDTO);
+
+        menuRepository.save(menu);
+
+    }
+
+    @Override
+    public void menuRemove(Long menu_code) {
+        menuRepository.deleteById(menu_code);
     }
 }

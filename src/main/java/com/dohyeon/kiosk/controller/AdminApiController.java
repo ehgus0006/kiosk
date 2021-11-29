@@ -6,7 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +21,23 @@ import org.springframework.web.bind.annotation.*;
 public class AdminApiController {
 
     private final AdminService adminService;
+
+    @PostMapping("/adminJoinPage")
+    public ResponseEntity<String> join(@RequestBody @Validated AdminDTO adminDTO, BindingResult bindingResult, Model model) {
+        log.info(adminDTO);
+
+//        // validation check
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errorList = bindingResult.getAllErrors();
+            for(ObjectError error : errorList) {
+                System.out.println(error.getDefaultMessage());
+                String defaultMessage = error.getDefaultMessage();
+                return new ResponseEntity<>(defaultMessage, HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return new ResponseEntity<>(adminService.adminResister(adminDTO), HttpStatus.OK);
+    }
 
     @PostMapping("/loginCheck")
     public ResponseEntity<String> loginCheck(@RequestBody AdminDTO adminDTO) {

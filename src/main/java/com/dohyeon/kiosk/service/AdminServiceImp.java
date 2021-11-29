@@ -22,7 +22,7 @@ public class AdminServiceImp implements AdminService {
 
     @Transactional
     @Override
-    public Long adminResister(AdminDTO adminDTO) {
+    public String adminResister(AdminDTO adminDTO) {
 
         String encodePassword = passwordEncoder.encode(adminDTO.getPassword());
 
@@ -35,7 +35,7 @@ public class AdminServiceImp implements AdminService {
 
         adminRepository.save(admin);
 
-        return admin.getAdmin_code();
+        return admin.getUser_id();
     }
 
     @Transactional

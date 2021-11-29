@@ -1,5 +1,6 @@
 package com.dohyeon.kiosk.entity;
 
+import com.dohyeon.kiosk.dto.MenuDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +23,10 @@ public class Menu extends BaseEntity{
 
     private int menu_price;
 
-    // 제품 이미지
+    // 진짜 이미지 url
+    private String real_img_url;
+
+    // 섬네일 이미지 url
     private String img_url;
 
     // 메뉴 상태 (0 등록중 , 1 등록 x) 마이페이지 수정가능
@@ -38,6 +42,16 @@ public class Menu extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_code")
     private Admin admin;
+
+    public void update(MenuDTO menuDTO) {
+        this.menu_name = menuDTO.getMenu_name();
+        this.menu_price = menuDTO.getMenu_price();
+        this.img_url = menuDTO.getImg_url();
+        this.real_img_url = menuDTO.getReal_img_url();
+        this.menu_stat = menuDTO.getMenu_stat();
+        this.menu_priority = menuDTO.getMenu_priority();
+        this.category = Category.valueOf(menuDTO.getCategory());
+    }
 
 
 

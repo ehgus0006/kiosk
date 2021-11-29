@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{~/js/jquery.min.js}"></script>
+
+</head>
+<body>
+
+<form id="JoinForm">
+    아이디 : <input type="text" id="user_id" name="user_id"><br>
+    비밀번호 : <input type="password" id="password" name="password"><br>
+    직급 : <select id="position" name="position">
+    <!--     STAFF, SUPERVISOR , MANAGER-->
+    <option value="STAFF">STAFF</option>
+    <option value="SUPERVISOR">SUPERVISOR</option>
+    <option value="MANAGER">MANAGER</option>
+</select><br>
+    <button type="button" id="JoinFormBtn">전송</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        $('#JoinFormBtn').click(function () {
+
+            var user_id = $('#user_id').val();
+            var password = $('#password').val();
+            var position = $('#position').val();
+
+            var data = {
+                "user_id": user_id,
+                "password": password,
+                "position": position
+            }
+
+            console.log(data.user_id)
+            console.log(data.password)
+            console.log(data.position)
+            $.ajax({
+                url: '/admin/adminJoinPage',
+                type: 'post',
+                dataType: "json",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert("회원가입에 성공하였습니다.");
+                    location.href = "/admin/adminPage";
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+                }
+            });
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

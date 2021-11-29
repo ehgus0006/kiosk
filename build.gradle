@@ -36,6 +36,10 @@ dependencies {
     // sequrity
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.5.5'
 
+    // validation 의존성
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
+
+
 }
 
 test {

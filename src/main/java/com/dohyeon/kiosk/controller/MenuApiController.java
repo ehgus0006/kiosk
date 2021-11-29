@@ -36,6 +36,27 @@ public class MenuApiController {
     @Value("${com.dohyeon.kiosk.upload.path}")
     private String uploadPath;
 
+    @PostMapping("/menuRemove/{menu_code}")
+    public void delete(@PathVariable Long menu_code) {
+        menuService.menuRemove(menu_code);
+    }
+
+    @PostMapping("/menuUpdate")
+    public ResponseEntity<MenuDTO> update(@RequestBody MenuDTO menuDTO) {
+
+        log.info(menuDTO.getMenu_name());
+        log.info(menuDTO.getMenu_price());
+        log.info(menuDTO.getImg_url());
+        log.info(menuDTO.getAdmin_code());
+        log.info(menuDTO.getMenu_priority());
+        log.info(menuDTO.getCategory());
+        log.info(menuDTO.getReal_img_url());
+
+        menuService.menuUpdate(menuDTO);
+
+        return new ResponseEntity<>(menuDTO, HttpStatus.OK);
+    }
+
     @PostMapping("/menuResister")
     public ResponseEntity<Long> register(@RequestBody MenuDTO menuDTO) {
 
@@ -140,15 +161,19 @@ public class MenuApiController {
     public ResponseEntity<Boolean> removeFile(String fileName) {
         System.out.println(fileName);
 
+
         try {
             String srcFileName = URLDecoder.decode(fileName, "UTF-8");
             File file = new File(uploadPath + File.separator + srcFileName);
+            System.out.println("file =" + file);
             boolean result = file.delete();
+            System.out.println("기존파일 삭제"+ result);
             File thumbnail = new File(file.getParent(), "s_" + file.getName());
+            System.out.println("thumbnail =" + thumbnail);
+
             result = thumbnail.delete();
             System.out.println("srcFileName =" + srcFileName);
-            System.out.println("result =" + result);
-            System.out.println("thumbnail =" + thumbnail);
+            System.out.println("썸네일파일삭제 =" + result);
 
             String imageName = thumbnail.toString();
 

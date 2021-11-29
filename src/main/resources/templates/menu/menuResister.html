@@ -47,7 +47,10 @@
             var menu_priority =  $('#menu_priority').val();
             var category =  $('#category').val();
 
+            var real_img_url = $('#real_img_url').val();
+
             var data = {
+                "real_img_url": real_img_url,
                 "admin_code": admin_code,
                 "menu_name": menu_name,
                 "menu_price": menu_price,
@@ -56,9 +59,7 @@
                 "category": category
             };
 
-            console.log(data.menu_priority)
-            console.log(data.category)
-            console.log(data.admin_code)
+            console.log("realimgurl="+data.real_img_url)
 
             $.ajax({
                 url: '/menuResister',
@@ -118,11 +119,13 @@
                 // var folderPath = menuImage.folderPath;
                 // var filename = menuImage.fileName;
                 var thumbnailURL = menuImage.thumbnailURL;
+                var real_img_url = menuImage.imageURL;
                 var img_url = thumbnailURL;
                 console.log(img_url);
                 var str = "";
                 str += "<div>";
                 str += "<input type='hidden' id='img_url' value='" + img_url + "'>"
+                str += "<input type='hidden' id='real_img_url' value='" + real_img_url + "'>"
                 str += "<img src='/display?fileName=" + menuImage.thumbnailURL + "'>";
                 str += "<button class='removeBtn' data-name='" + menuImage.imageURL + "'>삭제</button>";
                 str += "</div>"

@@ -5,7 +5,7 @@ import com.dohyeon.kiosk.dto.MenuDTO;
 
 public interface AdminService {
 
-    Long adminResister(AdminDTO adminDTO);
+    String adminResister(AdminDTO adminDTO);
 
     String loginCheck(AdminDTO adminDTO);
 }

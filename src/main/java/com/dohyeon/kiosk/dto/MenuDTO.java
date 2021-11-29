@@ -20,6 +20,7 @@ public class MenuDTO {
     private Long menu_code;
     private String menu_name;
     private int menu_price;
+    private String real_img_url;
     private String img_url;
     private String menu_stat;
     private int menu_priority;
@@ -33,6 +34,7 @@ public class MenuDTO {
         this.menu_name = menu.getMenu_name();
         this.menu_price = menu.getMenu_price();
         this.img_url = menu.getImg_url();
+        this.real_img_url = menu.getReal_img_url();
         this.menu_stat = menu.getMenu_stat();
         this.menu_priority = menu.getMenu_priority();
         this.category = String.valueOf(menu.getCategory());
