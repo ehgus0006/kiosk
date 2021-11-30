@@ -17,6 +17,7 @@
 
 <div class="menuSpaghetti" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPAGHETTI'}">
     <div>
+        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
         <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
         <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
         <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>
@@ -32,6 +33,7 @@
 
 <div class="menuSpecial" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPECIAL'}">
     <div>
+        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
         <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
         <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
         <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>
@@ -46,6 +48,7 @@
 </div>
 <div class="menuPizza" th:each="menus : ${allMenu}" th:if="${menus.category == 'PIZZA'}">
     <div>
+        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
         <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
         <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
         <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>
@@ -60,6 +63,7 @@
 </div>
 <div class="menuSide" th:each="menus : ${allMenu}" th:if="${menus.category == 'SIDE'}">
     <div>
+        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
         <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
         <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
         <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>
@@ -72,10 +76,17 @@
         <button type="button" class="itemBtn">장바구니</button>
     </div>
 </div>
+<hr>
 
 <div class="itemList">
 
 </div>
+총금액 : <input type="text" class="allPrice" readonly>
+
+<button>주문하기</button>
+
+
+
 
 <script>
     $(document).ready(function () {
@@ -83,37 +94,55 @@
         $('.menuSpecial').hide();
         $('.menuPizza').hide();
         $('.menuSide').hide();
+        var idx = 0;
+        var price = 0;
+
 
         $('.itemBtn').click(function (){
 
+            var menu_code = $(this).siblings('.menu_code').val();
             var menu_name = $(this).siblings('.menu_name').val();
             var menu_price = $(this).siblings('.menu_price').val();
 
-            console.log(menu_name);
-            console.log(menu_price);
+            // console.log(menu_code);
+            // console.log(menu_name);
+            // console.log(menu_price);
+            // 장바구니 누를때 마다 그해당하는 값에 번호를 매긴다
 
-            var str = "<tr class='item'>";
+            var str = "<div><tr>"
+            str += `<input type="hidden" value="${menu_code}" class="menu_code2">`
+            str += `<input type="hidden" value="${idx}" class="idx">`
+            str += `<input type="hidden" value="${menu_price}" class="menu_price2">`
             str += "<td>"+ menu_name +"</td>"
             str += "<td>"+ menu_price +"</td>"
-            str += "<td><button type='button' class='orderDelete'>주문삭제</button></td></tr>"
+            str += "<td><button type='button' class='orderDelete'>주문삭제</button></td></tr></div>"
 
+
+            price += parseInt(menu_price);
+            console.log("총급액은 " + price)
             $('.itemList').append(str);
+            ++idx;
+            $('.allPrice').attr("value", price);
+
 
             $('.orderDelete').on("click", orderDelete);
-
         });
 
         function orderDelete() {
-
             // var item = $(this).$('.itemList').children('.item');
-            var itemList = $('.itemList');
+            // $('.itemList item').click(this);
 
-            var item = $(this).parent().parent().parent('tr');
-            var items = $(this).parent().parent('tr');
+            var num = $(this).siblings('.menu_code2').val();
+            var idx = $(this).siblings('.idx').val();
+            var miprice = $(this).siblings('.menu_price2').val();
 
 
-            console.log(item.html());
-            console.log(items.html());
+            console.log("삭제하는 가격"+miprice)
+            price -= parseInt(miprice);
+            var items = $(this).parent("div");
+            console.log("총급액은 " + price)
+            items.remove();
+            $('.allPrice').attr("value", price);
         }
 
         $('#spaghetti').click(function () {
