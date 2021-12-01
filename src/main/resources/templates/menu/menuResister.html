@@ -11,6 +11,7 @@
     <input type="hidden" id="admin_code" name="admin_code" th:value="${session.admin_code}">
     메뉴 이름 : <input type="text" name="menu_name" id="menu_name" required><br>
     메뉴 가격 : <input type="text" name="menu_price" id="menu_price" required><br>
+    메뉴 재고량 : <input type="text" name="stockQuantity" id="stockQuantity" required><br>
     메뉴 순서 : <select id="menu_priority">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -46,6 +47,7 @@
             var img_url = $('#img_url').val();
             var menu_priority =  $('#menu_priority').val();
             var category =  $('#category').val();
+            var stockQuantity = $('#stockQuantity').val();
 
             var real_img_url = $('#real_img_url').val();
 
@@ -56,7 +58,8 @@
                 "menu_price": menu_price,
                 "img_url": img_url,
                 "menu_priority": menu_priority,
-                "category": category
+                "category": category,
+                "stockQuantity": stockQuantity
             };
 
             console.log("realimgurl="+data.real_img_url)

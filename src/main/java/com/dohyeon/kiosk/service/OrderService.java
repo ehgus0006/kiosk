@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrderService {
     List<MenuDTO> findAllMenu();
+
+    Long order(Long menu_code, int count);
 }

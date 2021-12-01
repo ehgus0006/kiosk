@@ -12,7 +12,9 @@
     <input type="hidden" name="admin_code" id="admin_code" th:value="${menu.admin.admin_code}">
     메뉴이름 : <input type="text" id="menu_name" th:value="${menu.menu_name}"><br>
     메뉴가격 : <input type="text" id="menu_price" th:value="${menu.menu_price}"><br>
+    메뉴 재고량 : <input type="text" th:value="${menu.stockQuantity}" name="stockQuantity" id="stockQuantity" required><br>
     메뉴 순서 : <select id="menu_priority" th:value="${menu.menu_price}"><br>
+
     <option th:value="${menu.menu_priority}">현재순서 : [[${menu.menu_priority}]]</option>
     <option value="1">1</option>
     <option value="2">2</option>
@@ -78,6 +80,8 @@
             var category =  $('#category').val();
             var menu_stat = $('#menu_stat').val();
             var real_img_url = $('#real_img_url').val();
+            var stockQuantity = $('#stockQuantity').val();
+
 
 
             var data = {
@@ -89,7 +93,8 @@
                 "menu_priority": menu_priority,
                 "category": category,
                 "menu_stat": menu_stat,
-                "real_img_url": real_img_url
+                "real_img_url": real_img_url,
+                "stockQuantity": stockQuantity
             };
 
             console.log(data.admin_code)
@@ -101,6 +106,7 @@
             console.log(data.category)
             console.log(data.menu_stat)
             console.log(data.real_img_url)
+            console.log(data.stockQuantity)
 
             $.ajax({
                 url: '/menuUpdate' + '?menu_code=' + menu_code,

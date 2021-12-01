@@ -104,6 +104,7 @@
             var menu_name = $(this).siblings('.menu_name').val();
             var menu_price = $(this).siblings('.menu_price').val();
 
+
             // console.log(menu_code);
             // console.log(menu_name);
             // console.log(menu_price);
@@ -125,7 +126,7 @@
             $('.allPrice').attr("value", price);
 
 
-            $('.orderDelete').on("click", orderDelete);
+            $('.orderDelete').off('click').on("click", orderDelete);
         });
 
         function orderDelete() {

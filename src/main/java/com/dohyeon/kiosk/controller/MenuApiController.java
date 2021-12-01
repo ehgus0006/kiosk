@@ -51,6 +51,7 @@ public class MenuApiController {
         log.info(menuDTO.getMenu_priority());
         log.info(menuDTO.getCategory());
         log.info(menuDTO.getReal_img_url());
+        log.info(menuDTO.getStockQuantity());
 
         menuService.menuUpdate(menuDTO);
 
@@ -66,6 +67,7 @@ public class MenuApiController {
         log.info(menuDTO.getAdmin_code());
         log.info(menuDTO.getMenu_priority());
         log.info(menuDTO.getCategory());
+        log.info(menuDTO.getStockQuantity());
 
 
         Long menuId = menuService.menuResister(menuDTO);

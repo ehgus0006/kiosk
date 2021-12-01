@@ -24,6 +24,7 @@ public class MenuDTO {
     private String img_url;
     private String menu_stat;
     private int menu_priority;
+    private int stockQuantity;
     private String category;
     private Long admin_code;
     private LocalDateTime regDate, modDate;
@@ -39,6 +40,7 @@ public class MenuDTO {
         this.menu_priority = menu.getMenu_priority();
         this.category = String.valueOf(menu.getCategory());
         this.admin_code = menu.getMenu_code();
+        this.stockQuantity = menu.getStockQuantity();
     }
 
 }
