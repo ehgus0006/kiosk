@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script th:src="@{~/js/jquery.min.js}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+          integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 <h2>봉대박 스파게티</h2>
@@ -81,10 +83,10 @@
 <div class="itemList">
 
 </div>
-총금액 : <input type="text" class="allPrice" readonly>
 
-<button>주문하기</button>
-
+<div class="total">
+</div>
+<button type="button" class="orderBtn">주문하기</button>
 
 
 
@@ -94,57 +96,117 @@
         $('.menuSpecial').hide();
         $('.menuPizza').hide();
         $('.menuSide').hide();
-        var idx = 0;
+
         var price = 0;
+        var arr_title = []; // 봉골레파스타
+        var content;
+        var count = 1;
+        var i = 0;
 
 
-        $('.itemBtn').click(function (){
+        $('.itemBtn').click(function () {
 
             var menu_code = $(this).siblings('.menu_code').val();
             var menu_name = $(this).siblings('.menu_name').val();
             var menu_price = $(this).siblings('.menu_price').val();
 
+            i++;
+            console.log(Object.entries(arr_title));
+            const j = arr_title.findIndex(i => i.name == menu_name)//객체 배열의 인덱스 찾는법
+            if (j != -1) {  //배열에 menu_title이 있는지 확인
+                arr_title[j].rcount++;
+                console.log("rcount" + arr_title[j].rcount)
 
-            // console.log(menu_code);
-            // console.log(menu_name);
-            // console.log(menu_price);
-            // 장바구니 누를때 마다 그해당하는 값에 번호를 매긴다
+                let str = ""
+                str += "<tr class='a" + i + "'>"
+                str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
+                str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
+                str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
+                str += `<input type="hidden" value="${count}" class="count">`;
+                str += "<td class>" + menu_name + "</td>"
+                str += "<td class>" + menu_price + "&nbsp;&nbsp;</td>"
+                str += "<td class='count'>" + arr_title[j].rcount + "</td>"
+                str += "<td><button class='orderDelete' >삭제</button></td></tr>"
+                $('.itemList').children().eq(j).replaceWith(str)
+            } else {
+                let str = "";
+                str += "<tr class='a" + i + "'>";
+                str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
+                str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
+                str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
+                str += `<input type="hidden" value="${count}" class="count">`;
+                str += "<td>" + menu_name + "</td>";
+                str += "<td>" + menu_price + "&nbsp;&nbsp;</td>";
+                str += "<td class='count'>" + count + "</td>"
+                str += "<td><button class='orderDelete'>삭제</button></td></tr>";
 
-            var str = "<div><tr>"
-            str += `<input type="hidden" value="${menu_code}" class="menu_code2">`
-            str += `<input type="hidden" value="${idx}" class="idx">`
-            str += `<input type="hidden" value="${menu_price}" class="menu_price2">`
-            str += "<td>"+ menu_name +"</td>"
-            str += "<td>"+ menu_price +"</td>"
-            str += "<td><button type='button' class='orderDelete'>주문삭제</button></td></tr></div>"
+                arr_title.push({
+                    'name': menu_name,
+                    'price': menu_price,
+                    'rcount': count
+                });
+                $('.itemList').append(str);
 
-
+            }
             price += parseInt(menu_price);
-            console.log("총급액은 " + price)
-            $('.itemList').append(str);
-            ++idx;
+
+            content += "<td class='total' > 총 금액: " + price + "</td></tr>"
+            console.log("총급액은 " + price);
+
+            $('.total').replaceWith(content);
+
             $('.allPrice').attr("value", price);
-
-
             $('.orderDelete').off('click').on("click", orderDelete);
         });
 
+
         function orderDelete() {
-            // var item = $(this).$('.itemList').children('.item');
-            // $('.itemList item').click(this);
 
-            var num = $(this).siblings('.menu_code2').val();
-            var idx = $(this).siblings('.idx').val();
-            var miprice = $(this).siblings('.menu_price2').val();
+            // var menu_code2 = $(this).siblings('.menu_code2').val();
+            var menu_name2 = $(this).closest("tr").children().eq(4).text();
+            var menu_price2 = $(this).closest("tr").children().eq(5).text();
+            count = $(this).closest("tr").children().eq(6).text();
+            console.log(menu_name2)
+            console.log(menu_price2)
+            console.log(count)
+            $(this).closest("tr").remove();//삭제
 
+            // 삭제시 총 금액
+            price -= menu_price2 * count
+            content += "<td class='total' > 총 금액: " + price + "</td></tr>"
+            $('.total').replaceWith(content)
 
-            console.log("삭제하는 가격"+miprice)
-            price -= parseInt(miprice);
-            var items = $(this).parent("div");
-            console.log("총급액은 " + price)
-            items.remove();
-            $('.allPrice').attr("value", price);
+            const j = arr_title.findIndex(i => i.name == menu_name2)
+            console.log(j);
+            arr_title.splice(j, 1); //배열 삭제
+            count = 1;
         }
+
+        $(".orderBtn").click(function () {
+
+
+            // console.log(Object.entries(arr_title));
+
+                var data = Array.from(arr_title);
+
+
+            console.log(data)
+
+            $.ajax({
+                url: '/order/orderMenu',
+                type: 'post',
+                dataType: "json",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    alert("성공");
+                },
+                error: function () {
+                    alert("실패")
+                }
+            })
+        });
 
         $('#spaghetti').click(function () {
             $('.menuSpaghetti').show();
