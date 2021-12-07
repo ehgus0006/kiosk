@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,6 +25,7 @@ public class OrderDTO {
     private Order order; // 주문
     private int orderPrice; //주문 가격
     private int count; // 주문 수량
+    private List<OrderDTO> orderDTOList = new ArrayList<>();
 
     public OrderDTO(OrderMenu orderMenu) {
         this.id = orderMenu.getId();
@@ -31,6 +34,7 @@ public class OrderDTO {
         this.menu = orderMenu.getMenu();
         this.order = orderMenu.getOrder();
     }
+
 
 
 }

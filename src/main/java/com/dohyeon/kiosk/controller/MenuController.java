@@ -30,6 +30,11 @@ public class MenuController {
         return "index";
     }
 
+    @GetMapping("/pay")
+    public String pay() {
+        return "/payTest";
+    }
+
     @GetMapping("/menuResister")
     public String menuResiter() {
         return "/menu/menuResister";

@@ -20,11 +20,24 @@ public class Order extends BaseEntity{
     @Column(name = "order_id")
     private Long id;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; //주문상태 [ORDER, CANCEL]
+
+    public static List<Order> createTestOrder(OrderMenu... orderMenus) {
+        Order order = new Order();
+
+        for (OrderMenu orderMenu : orderMenus) {
+            order.addOrderItem(orderMenu);
+        }
+        order.setStatus(OrderStatus.ORDER);
+
+        List<Order> orders = new ArrayList<>();
+        orders.add(order);
+        return orders;
+    }
 
     public void addOrderItem(OrderMenu orderMenu) {
         orderMenus.add(orderMenu);
@@ -33,9 +46,6 @@ public class Order extends BaseEntity{
 
     // 생성 메서드
     public static Order createOrder(OrderMenu... orderMenus) {
-
-        System.out.println("orderMenus"+ orderMenus);
-
 
         Order order = new Order();
 

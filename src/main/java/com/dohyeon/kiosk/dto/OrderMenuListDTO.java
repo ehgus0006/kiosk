@@ -1,7 +1,5 @@
 package com.dohyeon.kiosk.dto;
 
-
-import com.dohyeon.kiosk.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +12,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderMenuDTO {
+public class OrderMenuListDTO {
 
-
-
-    // 메뉴코드
-    private Long menu_code;
-
-    // 메뉴이름
-    private String name;
-
-    // 메뉴가격
-    private int price;
-
-    // 수
-    private int rcount;
-
+    List<OrderMenuDTO> arr_title;
 
 }

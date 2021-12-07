@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
           integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
 <h2>봉대박 스파게티</h2>
@@ -89,7 +90,6 @@
 <button type="button" class="orderBtn">주문하기</button>
 
 
-
 <script>
     $(document).ready(function () {
         $('.menuSpaghetti').show();
@@ -143,7 +143,8 @@
                 arr_title.push({
                     'name': menu_name,
                     'price': menu_price,
-                    'rcount': count
+                    'rcount': count,
+                    'menu_code': menu_code
                 });
                 $('.itemList').append(str);
 
@@ -187,25 +188,79 @@
 
             // console.log(Object.entries(arr_title));
 
-                var data = Array.from(arr_title);
+            // 객체를 배열로 바꾸는 방법
+            // var arr_data = Array.from(arr_title);
 
-
-            console.log(data)
+            // 객체를 보내서 List<Map<String, String>> 변수 타입으로 값 받기
 
             $.ajax({
                 url: '/order/orderMenu',
                 type: 'post',
                 dataType: "json",
-                data: JSON.stringify(data),
+                data: JSON.stringify(arr_title),
                 contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    console.log(data);
+                success: function (arr_data) {
+                    console.log(arr_data);
                     alert("성공");
                 },
                 error: function () {
                     alert("실패")
                 }
             })
+
+            // var IMP = window.IMP;
+            // IMP.init('imp07054769');
+            // // 원래는 amount 에 실제 결제금액 final_price를 넣어야 된다
+            // IMP.request_pay({
+            //         pg: 'inicis', // version 1.1.0부터 지원.
+            //         pay_method: 'card',
+            //         merchant_uid: 'merchant_' + new Date().getTime(),
+            //         name: '주문명:결제테스트',
+            //         amount: 100,
+            //         m_redirect_url: 'https://www.yourdomain.com/payments/complete'
+            //     },
+            //     function (rsp) {
+            //         if (rsp.success) {
+            //             console.log(rsp);
+            //             let payment = {
+            //                 imp_uid : rsp.imp_uid,
+            //                 merchant_uid : rsp.merchant_uid,
+            //                 pay_method : rsp.pay_method,
+            //                 pt_amount : 100,
+            //                 apply_num : rsp.apply_num,
+            //             };
+            //             $.ajax({
+            //                 url: "/order/payment/",
+            //                 method: "post",
+            //                 data: JSON.stringify(payment),
+            //                 contentType: 'application/json; charset=utf-8',
+            //             }).done(function (data) {
+            //                 console.log(data);
+            //                 alert("결제 완료에 성공하셨습니다");
+            //                 $.ajax({
+            //                     url: '/order/orderMenu',
+            //                     type: 'post',
+            //                     dataType: "json",
+            //                     data: JSON.stringify(arr_title),
+            //                     contentType: 'application/json; charset=utf-8',
+            //                     success: function (arr_data) {
+            //                         console.log(arr_data);
+            //                         alert("성공");
+            //                     },
+            //                     error: function () {
+            //                         alert("실패")
+            //                     }
+            //                 })
+            //             }).fail(function (error) {
+            //                 alert("실패하였습니다");
+            //             });
+            //         } else {
+            //             var msg = '결제에 실패하였습니다.';
+            //             msg += '에러내용 : ' + rsp.error_msg;
+            //         }
+            //     });
+
+
         });
 
         $('#spaghetti').click(function () {

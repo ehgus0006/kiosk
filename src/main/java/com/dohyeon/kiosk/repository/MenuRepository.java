@@ -17,4 +17,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     @Query("select m from Menu m where m.menu_stat='0' order by m.menu_priority asc")
     List<Menu> findAllMenu();
+
+
 }
