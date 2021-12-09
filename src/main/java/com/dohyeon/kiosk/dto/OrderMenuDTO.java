@@ -30,5 +30,7 @@ public class OrderMenuDTO {
     // 수
     private int rcount;
 
+    private int total;
+
 
 }

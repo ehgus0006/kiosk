@@ -1,10 +1,17 @@
 package com.dohyeon.kiosk.service;
 
-import com.dohyeon.kiosk.dto.BuyerPTDTO;
-import com.dohyeon.kiosk.dto.MenuDTO;
+import com.dohyeon.kiosk.dto.*;
+import com.dohyeon.kiosk.entity.Menu;
+import com.dohyeon.kiosk.entity.Order;
+import com.dohyeon.kiosk.entity.OrderMenu;
+import com.dohyeon.kiosk.entity.OrderStatus;
+import net.bytebuddy.asm.Advice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public interface OrderService {
     List<MenuDTO> findAllMenu();
@@ -13,7 +20,6 @@ public interface OrderService {
 
     void payment(BuyerPTDTO buyerPTDTO);
 
-    void testOrder(List<Map<String, Object>> orderMenuList);
 
-
+    void orderTest(List<Long> menuCodeArr, List<Integer> menuCount);
 }

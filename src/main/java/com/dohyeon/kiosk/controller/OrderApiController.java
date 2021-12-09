@@ -4,7 +4,9 @@ import com.dohyeon.kiosk.dto.BuyerPTDTO;
 import com.dohyeon.kiosk.dto.OrderDTO;
 import com.dohyeon.kiosk.dto.OrderMenuDTO;
 import com.dohyeon.kiosk.dto.OrderMenuListDTO;
+import com.dohyeon.kiosk.entity.Menu;
 import com.dohyeon.kiosk.entity.OrderMenu;
+import com.dohyeon.kiosk.repository.MenuRepository;
 import com.dohyeon.kiosk.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,21 +27,28 @@ import java.util.stream.Collectors;
 public class OrderApiController {
 
     private final OrderService orderService;
+    private final MenuRepository menuRepository;
 
     @PostMapping("/orderMenu")
-    public ResponseEntity<Long> resister(@RequestBody List<Map<String ,Object>> orderMenuList) {
+    public ResponseEntity<Long> resister(@RequestBody List<OrderMenuDTO> orderMenuList) {
 
 
-//        log.info(orderMenuList);
-//        for(OrderMenuDTO orderMenuDTO : arr_title){
-//            log.info(orderMenuDTO);
-//            // 여기서는 여러개
+        log.info(orderMenuList);
+        List<Long> menuCodeArr = new ArrayList<>();
+        List<Integer> menuCount = new ArrayList<>();
+
+        for(OrderMenuDTO orderMenuDTO : orderMenuList){
+            log.info(orderMenuDTO);
+            log.info(orderMenuDTO.getPrice());
+            // 여기서는 여러개
 //            orderService.order(orderMenuDTO.getMenu_code(), orderMenuDTO.getRcount());
-//        }
+            Menu menu = menuRepository.findById(orderMenuDTO.getMenu_code()).get();
+            Long menu_code = menu.getMenu_code();
+            menuCodeArr.add(menu_code);
+            menuCount.add(orderMenuDTO.getRcount());
+        }
 
-        orderService.testOrder(orderMenuList);
-
-
+        orderService.orderTest(menuCodeArr, menuCount);
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 

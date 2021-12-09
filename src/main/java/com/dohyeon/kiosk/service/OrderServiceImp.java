@@ -1,12 +1,10 @@
 package com.dohyeon.kiosk.service;
 
 import com.dohyeon.kiosk.dto.*;
-import com.dohyeon.kiosk.entity.Buyer;
-import com.dohyeon.kiosk.entity.Menu;
-import com.dohyeon.kiosk.entity.Order;
-import com.dohyeon.kiosk.entity.OrderMenu;
+import com.dohyeon.kiosk.entity.*;
 import com.dohyeon.kiosk.repository.BuyerRepository;
 import com.dohyeon.kiosk.repository.MenuRepository;
+import com.dohyeon.kiosk.repository.OrderMenuRepository;
 import com.dohyeon.kiosk.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +24,9 @@ public class OrderServiceImp implements OrderService {
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
     private final BuyerRepository buyerRepository;
+    private final OrderMenuRepository orderMenuRepository;
+
+    List<OrderMenu> testOrder = null;
 
     @Transactional(readOnly = true)
     @Override
@@ -61,65 +62,16 @@ public class OrderServiceImp implements OrderService {
 
         return order.getId();
     }
+
     @Override
-    public void testOrder(List<Map<String, Object>> orderMenuList) {
+    public void orderTest(List<Long> menuCodeArr, List<Integer> menuCount) {
 
-        Map<String, Object> menuMap = new HashMap<>();
-
-        for (Map<String, Object> mapKey : orderMenuList) {
-            Long menu_code = Long.valueOf((String) mapKey.get("menu_code"));
-            int rcount = Integer.valueOf((Integer) mapKey.get("rcount"));
-            log.info("mapKey:" + mapKey.size());
-            log.info("menu_code:" + menu_code);
-            log.info("rcount:" + rcount);
-
+        menuCodeArr.forEach(menu_code -> {
             Menu menu = menuRepository.findById(menu_code).get();
+        });
 
-            // 주문 상품 생성  메뉴 봉골레 2 +
-
-            List<OrderMenu> testOrder = OrderMenu.createTestOrder(rcount, menu);
-            System.out.println(testOrder.size());
-//주문 생성
-
-            List<Order> orders = null;
-            for (OrderMenu orderMenu : testOrder) {
-                List<Order> testOrders = Order.createTestOrder(orderMenu);
-                orderRepository.saveAll(testOrders);
-
-            }
-
-            //주문 저장
-
-//            for (OrderMenu orderMenu : testOrder) {
-//                List<Order> testOrders = Order.createTestOrder(orderMenu);
-//                orderRepository.saveAll(testOrders);
-//            }
-
-        }
 
     }
-
-
-
-//    @Override
-//    public void testOrder(List<OrderMenuDTO> arr_title) {
-//        log.info("service 로직 실행된다");
-//        // 메뉴 엔티티 조회
-//        List<Menu> menuList = new ArrayList<>();
-//        for (OrderMenuDTO orderMenuDTO : arr_title) {
-//            Menu menu = menuRepository.findById(orderMenuDTO.getMenu_code()).get();
-//            int rcount = orderMenuDTO.getRcount();
-//            menuList.add(menu);
-//        }
-//
-//        for (Menu menuDTO : menuList) {
-//            log.info("menupk " + menuDTO.getMenu_code());
-//        }
-//        // 주문 상품 생성
-//        OrderMenu orderMenu = OrderMenu.createOrderTestMenu(menuList);
-//
-//
-//    }
 
     @Override
     public void payment(BuyerPTDTO buyerPTDTO) {

@@ -188,8 +188,18 @@
 
             // console.log(Object.entries(arr_title));
 
+
+            const totalPrice = $('.total').text();
+
+            const total = totalPrice.substring(7, 12);
+
+            console.log(total);
+
+            arr_title.push({"total": total});
             // 객체를 배열로 바꾸는 방법
-            // var arr_data = Array.from(arr_title);
+            var arr_data = Array.from(arr_title);
+
+            console.log(arr_data);
 
             // 객체를 보내서 List<Map<String, String>> 변수 타입으로 값 받기
 
@@ -197,7 +207,7 @@
                 url: '/order/orderMenu',
                 type: 'post',
                 dataType: "json",
-                data: JSON.stringify(arr_title),
+                data: JSON.stringify(arr_data),
                 contentType: 'application/json; charset=utf-8',
                 success: function (arr_data) {
                     console.log(arr_data);
