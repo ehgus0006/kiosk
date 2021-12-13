@@ -23,10 +23,11 @@ public class Order extends BaseEntity{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
+    //주문상태 주문중, 주문완료, 주문취소[ORDER, ORDER_COMPLETE ,CANCEL]
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; //주문상태 [ORDER, CANCEL]
+    private OrderStatus status;
 
-    public static List<Order> createTestOrder(OrderMenu... orderMenus) {
+    public static Order createTestOrder(List<OrderMenu> orderMenus) {
         Order order = new Order();
 
         for (OrderMenu orderMenu : orderMenus) {
@@ -34,9 +35,8 @@ public class Order extends BaseEntity{
         }
         order.setStatus(OrderStatus.ORDER);
 
-        List<Order> orders = new ArrayList<>();
-        orders.add(order);
-        return orders;
+
+        return order;
     }
 
     public void addOrderItem(OrderMenu orderMenu) {

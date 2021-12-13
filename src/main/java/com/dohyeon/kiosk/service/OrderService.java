@@ -21,5 +21,7 @@ public interface OrderService {
     void payment(BuyerPTDTO buyerPTDTO);
 
 
-    void orderTest(List<Long> menuCodeArr, List<Integer> menuCount);
+    Long orderTest(List<OrderMenuDTO> orderMenuList);
+
+    List<OrderMenuDTO> orderIn();
 }

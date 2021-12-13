@@ -51,20 +51,15 @@ public class OrderMenu extends BaseEntity {
         return orderMenu;
     }
 
-    public static List<OrderMenu> createTestOrder(int rcount, Menu... menu) {
-        List<OrderMenu>orderMenus = null;
-        for (Menu menus : menu) {
+    public static OrderMenu createTestOrder(Menu menu, int rcount) {
             OrderMenu orderMenu = new OrderMenu();
 
-            orderMenu.setMenu(menus);
-            orderMenu.setOrderPrice(menus.getMenu_price());
+            orderMenu.setMenu(menu);
+            orderMenu.setOrderPrice(menu.getMenu_price());
             orderMenu.setCount(rcount);
-            menus.removeStock(rcount);
-            orderMenus = new ArrayList<>();
-            orderMenus.add(orderMenu);
-        }
+            menu.removeStock(rcount);
 
-        return orderMenus;
+        return orderMenu;
     }
 
 

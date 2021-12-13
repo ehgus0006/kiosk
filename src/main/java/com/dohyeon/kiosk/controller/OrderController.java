@@ -1,6 +1,10 @@
 package com.dohyeon.kiosk.controller;
 
 import com.dohyeon.kiosk.dto.MenuDTO;
+import com.dohyeon.kiosk.dto.OrderDTO;
+import com.dohyeon.kiosk.dto.OrderMenuDTO;
+import com.dohyeon.kiosk.entity.Order;
+import com.dohyeon.kiosk.entity.OrderMenu;
 import com.dohyeon.kiosk.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,9 +32,17 @@ public class OrderController {
         return "/order/orderMenu";
     }
 
-//    @GetMapping("/orderIn")
-//    public String orderIn() {
-//        orderService.orderIn();
-//    }
+    @GetMapping("/orderIn")
+    public String orderIn(Model model) {
+        List<OrderMenuDTO> orderMenuDTOList = orderService.orderIn();
+        log.info(orderMenuDTOList);
+        for (OrderMenuDTO order : orderMenuDTOList) {
+            log.info(order);
+        }
+
+        model.addAttribute("orderMenuList", orderMenuDTOList);
+
+        return "/order/orderIn";
+    }
 
 }

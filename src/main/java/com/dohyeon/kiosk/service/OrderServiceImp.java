@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,13 +65,25 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public void orderTest(List<Long> menuCodeArr, List<Integer> menuCount) {
+    public Long orderTest(List<OrderMenuDTO> orderMenuList) {
 
-        menuCodeArr.forEach(menu_code -> {
-            Menu menu = menuRepository.findById(menu_code).get();
-        });
+        List<OrderMenu> orderMenus = new ArrayList<>();
+        for (OrderMenuDTO orderMenuDTO : orderMenuList) {
+            Menu menu = menuRepository.findById(orderMenuDTO.getMenu_code()).get();
+            OrderMenu orderMenu = OrderMenu.createTestOrder(menu, orderMenuDTO.getRcount());
+            orderMenus.add(orderMenu);
+        }
+        // Order Entity 클래스에 존재하는 createOrder 메소드로 Order 생성 및 저장
+        Order order = Order.createTestOrder(orderMenus);
+        orderRepository.save(order);
+        return order.getId();
+    }
 
-
+    @Override
+    public List<OrderMenuDTO> orderIn() {
+        return orderRepository.findOrderIn().stream()
+                .map(OrderMenuDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

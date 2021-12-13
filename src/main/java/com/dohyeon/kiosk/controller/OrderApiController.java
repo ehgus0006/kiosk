@@ -34,22 +34,10 @@ public class OrderApiController {
 
 
         log.info(orderMenuList);
-        List<Long> menuCodeArr = new ArrayList<>();
-        List<Integer> menuCount = new ArrayList<>();
 
-        for(OrderMenuDTO orderMenuDTO : orderMenuList){
-            log.info(orderMenuDTO);
-            log.info(orderMenuDTO.getPrice());
-            // 여기서는 여러개
-//            orderService.order(orderMenuDTO.getMenu_code(), orderMenuDTO.getRcount());
-            Menu menu = menuRepository.findById(orderMenuDTO.getMenu_code()).get();
-            Long menu_code = menu.getMenu_code();
-            menuCodeArr.add(menu_code);
-            menuCount.add(orderMenuDTO.getRcount());
-        }
+        Long orderCode = orderService.orderTest(orderMenuList);
 
-        orderService.orderTest(menuCodeArr, menuCount);
-        return new ResponseEntity<>(1L, HttpStatus.OK);
+        return new ResponseEntity<>(orderCode, HttpStatus.OK);
     }
 
     // 결제처리

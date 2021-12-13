@@ -2,5 +2,5 @@ package com.dohyeon.kiosk.entity;
 
 public enum OrderStatus {
 
-    ORDER, CANCEL
+    ORDER, ORDER_COMPLETE ,CANCEL
 }

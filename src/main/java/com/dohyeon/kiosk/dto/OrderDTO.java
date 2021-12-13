@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,16 @@ public class OrderDTO {
     private int orderPrice; //주문 가격
     private int count; // 주문 수량
     private List<OrderDTO> orderDTOList = new ArrayList<>();
+    private LocalDateTime orderDate;
 
     public OrderDTO(OrderMenu orderMenu) {
-        this.id = orderMenu.getId();
-        this.orderPrice = orderMenu.getOrderPrice();
+        this.id = orderMenu.getOrder().getId();
+        this.orderPrice = orderMenu.getOrder().getTotalPrice();
         this.count = orderMenu.getCount();
         this.menu = orderMenu.getMenu();
         this.order = orderMenu.getOrder();
+        this.orderDate = orderMenu.getOrder().getRegDate();
     }
-
 
 
 }
