@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,21 +78,31 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<OrderMenuDTO> orderIn() {
+    public List<OrderListDTO> orderIn() {
         return orderRepository.findOrderIn().stream()
-                .map(OrderMenuDTO::new)
+                .map(OrderListDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void payment(BuyerPTDTO buyerPTDTO) {
+    public void refundDel(Long buyer_id, Long order_id) {
+        buyerRepository.updateInfo(buyer_id, order_id);
+        orderRepository.orderCancel(order_id);
+    }
+
+    @Override
+    public void payment(BuyerDTO buyerDTO) {
+
+        Order order = orderRepository.findById(buyerDTO.getOrder_id()).get();
+
         Buyer buyerPt = Buyer.builder()
-                .imp_uid(buyerPTDTO.getImp_uid())
-                .merchant_uid(buyerPTDTO.getMerchant_uid())
-                .pay_method(buyerPTDTO.getPay_method())
-                .pt_amount(buyerPTDTO.getPt_amount())
-                .apply_num(buyerPTDTO.getApply_num())
-                .bt_cancel(buyerPTDTO.getBt_cancel())
+                .imp_uid(buyerDTO.getImp_uid())
+                .merchant_uid(buyerDTO.getMerchant_uid())
+                .pay_method(buyerDTO.getPay_method())
+                .all_price(buyerDTO.getAll_price())
+                .apply_num(buyerDTO.getApply_num())
+                .bt_cancel(buyerDTO.getBt_cancel())
+                .order(order)
                 .build();
 
         buyerRepository.save(buyerPt);

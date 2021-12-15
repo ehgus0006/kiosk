@@ -23,11 +23,15 @@ public class Buyer extends BaseEntity{
     private String merchant_uid;
     //결제 방법
     private String pay_method;
-    // pt 실제 결제되는 가격
-    private String pt_amount;
+    // 실제 결제되는 가격
+    private String all_price;
     // 카드 승인번호
     private String apply_num;
 
-    // 결제 취소  default 0 결제완료 , 1 결제거절,   2 승인대기
+    // 결제 취소  default 0 결제완료 , 1 결제환불
     private int bt_cancel;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

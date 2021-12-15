@@ -1,24 +1,18 @@
 package com.dohyeon.kiosk.controller;
 
-import com.dohyeon.kiosk.dto.BuyerPTDTO;
-import com.dohyeon.kiosk.dto.OrderDTO;
+import com.dohyeon.kiosk.config.PaymentCheck;
+import com.dohyeon.kiosk.dto.BuyerDTO;
 import com.dohyeon.kiosk.dto.OrderMenuDTO;
-import com.dohyeon.kiosk.dto.OrderMenuListDTO;
-import com.dohyeon.kiosk.entity.Menu;
-import com.dohyeon.kiosk.entity.OrderMenu;
+import com.dohyeon.kiosk.dto.RefundDTO;
 import com.dohyeon.kiosk.repository.MenuRepository;
 import com.dohyeon.kiosk.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,10 +36,28 @@ public class OrderApiController {
 
     // 결제처리
     @PostMapping("/payment")
-    public BuyerPTDTO payResult(@RequestBody BuyerPTDTO buyerPTDTO) {
-        buyerPTDTO.setBt_cancel(0);
-        orderService.payment(buyerPTDTO);
-        return buyerPTDTO;
+    public BuyerDTO payResult(@RequestBody BuyerDTO buyerDTO) {
+        log.info("승인번호는 "+ buyerDTO.getApply_num());
+        buyerDTO.setBt_cancel(0);
+
+        orderService.payment(buyerDTO);
+        return buyerDTO;
+    }
+
+    // 결제환불
+    @PostMapping("/cancel")
+    public Boolean payResult(@RequestBody RefundDTO refundDTO) {
+
+        PaymentCheck paymentCheck = new PaymentCheck();
+        String token = paymentCheck.getImportToken();
+        paymentCheck.cancelPayment(token, refundDTO.getMerchant_uid());
+
+
+        Long buyer_id = refundDTO.getBuyer_id();
+        Long order_id = refundDTO.getOrder_id();
+
+        orderService.refundDel(buyer_id, order_id);
+        return true;
     }
 
 }

@@ -1,7 +1,9 @@
 package com.dohyeon.kiosk.service;
 
 import com.dohyeon.kiosk.dto.AdminDTO;
-import com.dohyeon.kiosk.dto.MenuDTO;
+import com.dohyeon.kiosk.dto.BuyerDTO;
+
+import java.util.List;
 
 public interface AdminService {
 
@@ -10,4 +12,6 @@ public interface AdminService {
     String loginCheck(AdminDTO adminDTO);
 
     String IdChk(String user_id);
+
+    List<BuyerDTO> getPayList();
 }

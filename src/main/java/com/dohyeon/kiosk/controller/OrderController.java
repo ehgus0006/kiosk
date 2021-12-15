@@ -1,8 +1,6 @@
 package com.dohyeon.kiosk.controller;
 
-import com.dohyeon.kiosk.dto.MenuDTO;
-import com.dohyeon.kiosk.dto.OrderDTO;
-import com.dohyeon.kiosk.dto.OrderMenuDTO;
+import com.dohyeon.kiosk.dto.*;
 import com.dohyeon.kiosk.entity.Order;
 import com.dohyeon.kiosk.entity.OrderMenu;
 import com.dohyeon.kiosk.service.OrderService;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,15 +33,20 @@ public class OrderController {
 
     @GetMapping("/orderIn")
     public String orderIn(Model model) {
-        List<OrderMenuDTO> orderMenuDTOList = orderService.orderIn();
-        log.info(orderMenuDTOList);
-        for (OrderMenuDTO order : orderMenuDTOList) {
-            log.info(order);
+        List<OrderListDTO> orderMenuDTOList = orderService.orderIn();
+        for (OrderListDTO order : orderMenuDTOList) {
+            log.info("주문번호" +order.getOrder().getId());
+            List<OrderMenu> orderMenus = order.getOrderMenus();
+            for (OrderMenu orderMenu : orderMenus) {
+                log.info("주문메뉴번호"+orderMenu.getId());
+            }
         }
 
         model.addAttribute("orderMenuList", orderMenuDTOList);
 
         return "/order/orderIn";
     }
+
+
 
 }

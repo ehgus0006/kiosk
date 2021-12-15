@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{~/js/jquery.min.js}"></script>
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="text-center">결제번호</th>
+        <th class="text-center">주문번호</th>
+        <th class="text-center">결제금액</th>
+        <th class="text-center">결제방식</th>
+        <th class="text-center">결제상태</th>
+        <th class="text-center">결제일</th>
+        <th class="text-center">결제환불</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="payList : ${payLists}" class="text-center">
+        <td><span th:text="${payList.id}" class="buyer_id"></span></td>
+        <td><span th:text="${payList.order_id}" class="order_id"></span>
+        </td>
+        <input type="hidden" th:value="${payList.merchant_uid}" class="merchant_uid">
+        <td><span th:text="${payList.all_price}"></span>
+        </td>
+        <td><span th:text="${payList.pay_method}"></span></td>
+        <td><span th:text="${payList.bt_cancel}" class="bt_cancel"></span></td>
+        <td th:text="${#temporals.format(payList.regDate, 'yyyy/MM/dd HH:mm:ss')}"></td>
+        <td th:if="${payList.bt_cancel == 0}"><button type="button" class="refundBtn">결제취소</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        let a = $('.bt_cancel');
+        a.each(function (i, el) {
+            let state = $(this).text();
+            if (state == 0) {
+                $(this).text("결제승인");
+            } else {
+                $(this).text("결제환불");
+            }
+        });
+
+        $('.refundBtn').click(function () {
+            let buyer_id = $(this).closest("tr").children().eq(0).text();
+            let order_id = $(this).closest("tr").children().eq(1).text();
+            let merchant_uid = $(this).closest("tr").children().eq(2).val();
+            let all_price = $(this).closest("tr").children().eq(3).text();
+
+            let payment = {
+                "buyer_id" : buyer_id,
+                "order_id" : order_id,
+                "merchant_uid" : merchant_uid,
+                "all_price" : all_price
+            }
+
+            console.log(payment);
+
+
+            $.ajax({
+                url: "/order/cancel/",
+                method: "post",
+                data: JSON.stringify(payment),
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data) {
+                console.log(data);
+                alert("결제 환불에 성공하였습니다");
+            }).fail(function (error) {
+                alert("실패하였습니다");
+            });
+
+        });
+    });
+
+</script>
+
+</body>
+</html>

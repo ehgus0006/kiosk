@@ -26,12 +26,17 @@ public class Order extends BaseEntity{
     //주문상태 주문중, 주문완료, 주문취소[ORDER, ORDER_COMPLETE ,CANCEL]
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    
+    // 주문 총 금액
+    private int totalPrice;
 
     public static Order createTestOrder(List<OrderMenu> orderMenus) {
         Order order = new Order();
 
         for (OrderMenu orderMenu : orderMenus) {
             order.addOrderItem(orderMenu);
+            order.setTotalPrice(orderMenu.getTotalPrice());
+
         }
         order.setStatus(OrderStatus.ORDER);
 

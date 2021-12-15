@@ -1,10 +1,12 @@
 package com.dohyeon.kiosk.controller;
 
 import com.dohyeon.kiosk.dto.AdminDTO;
+import com.dohyeon.kiosk.dto.BuyerDTO;
 import com.dohyeon.kiosk.entity.Admin;
 import com.dohyeon.kiosk.repository.AdminRepository;
 import com.dohyeon.kiosk.service.AdminService;
 import com.dohyeon.kiosk.validation.JoinUp;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -85,6 +87,15 @@ public class AdminController {
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/";
+    }
+
+    @GetMapping("/payManagement")
+    public String payManagement(Model model) {
+
+        List<BuyerDTO> payList = adminService.getPayList();
+        model.addAttribute("payLists", payList);
+
+        return "/admin/payManagement";
     }
 
 }
