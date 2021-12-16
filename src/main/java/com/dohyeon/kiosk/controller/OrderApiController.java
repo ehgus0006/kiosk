@@ -60,4 +60,23 @@ public class OrderApiController {
         return true;
     }
 
+    // 주문완료
+    @PostMapping("/orderComplete/{order_id}")
+    public void orderComplete(@PathVariable Long order_id) {
+
+        log.info("주문번호는 " + order_id);
+
+        orderService.orderComplete(order_id);
+    }
+
+    @PostMapping("/orderEnd/{order_id}")
+    public void orderEnd(@PathVariable Long order_id) {
+
+        log.info("주문번호는 " + order_id);
+
+        orderService.orderEnd(order_id);
+    }
+
+
+
 }

@@ -62,6 +62,7 @@ public class OrderServiceImp implements OrderService {
         return order.getId();
     }
 
+    @Transactional
     @Override
     public Long orderTest(List<OrderMenuDTO> orderMenuList) {
 
@@ -90,6 +91,18 @@ public class OrderServiceImp implements OrderService {
         orderRepository.orderCancel(order_id);
     }
 
+    @Override
+    public void orderComplete(Long order_id) {
+
+        orderRepository.orderComplete(order_id);
+    }
+
+    @Override
+    public void orderEnd(Long order_id) {
+        orderRepository.OrderEnd(order_id);
+    }
+
+    @Transactional
     @Override
     public void payment(BuyerDTO buyerDTO) {
 

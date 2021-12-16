@@ -219,7 +219,7 @@
                             pay_method: 'card',
                             merchant_uid: 'merchant_' + new Date().getTime(),
                             name: '주문명:결제테스트',
-                            all_price: 100,
+                            amount: 100,
                             m_redirect_url: 'https://www.yourdomain.com/payments/complete'
                         },
                         function (rsp) {
@@ -241,12 +241,13 @@
                                 }).done(function (data) {
                                     console.log(data);
 
-                                    alert("주문번호는" + data.order_id + "입니다.");
+                                    alert("주문번호는" + data.order_id + "번 입니다.");
                                     location.href = "/";
                                 }).fail(function (error) {
                                     alert("실패하였습니다");
                                 });
                             } else {
+                                alert("결제에 실패하였습니다.");
                                 var msg = '결제에 실패하였습니다.';
                                 msg += '에러내용 : ' + rsp.error_msg;
                             }

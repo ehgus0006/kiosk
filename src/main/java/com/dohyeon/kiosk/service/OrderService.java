@@ -22,5 +22,7 @@ public interface OrderService {
     void refundDel(Long buyer_id, Long order_id);
 
 
+    void orderComplete(Long order_id);
 
+    void orderEnd(Long order_id);
 }

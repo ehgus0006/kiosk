@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{~/js/jquery.min.js}"></script>
+</head>
+<body>
+
+<table>
+    <h2>메뉴 준비중</h2>
+    <thead>
+    <tr>
+        <th>주문번호</th>
+    </tr>
+    </thead>
+    <tbody th:each="orderPrepares : ${orderPrepare}">
+    <tr>
+        <td th:text="${orderPrepares.id}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<table>
+    <h2>메뉴 준비완료</h2>
+    <thead>
+    <tr>
+        <th>주문번호</th>
+    </tr>
+    </thead>
+    <tbody th:each="orderEnds : ${orderEnd}">
+    <tr>
+        <td th:text="${orderEnds.id}" class="orderEnd"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+
+        $(".orderEnd").click(function () {
+            let order_id = $(this).closest("tr").children().eq(0).text();
+
+            console.log(order_id);
+
+            $.ajax({
+                url: "/order/orderEnd/" + order_id,
+                method: "post",
+                contentType: 'application/json; charset=utf-8',
+            }).done(function () {
+                location.reload();
+            }).fail(function (error) {
+                alert("주문이 실패하셨습니다");
+            });
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

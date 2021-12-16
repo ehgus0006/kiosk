@@ -23,7 +23,7 @@ public class Order extends BaseEntity{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderMenu> orderMenus = new ArrayList<>();
 
-    //주문상태 주문중, 주문완료, 주문취소[ORDER, ORDER_COMPLETE ,CANCEL]
+    //주문상태 주문중, 주문완료, 주문취소[ORDER, ORDER_COMPLETE, ORDER_END ,CANCEL]
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     
@@ -35,7 +35,7 @@ public class Order extends BaseEntity{
 
         for (OrderMenu orderMenu : orderMenus) {
             order.addOrderItem(orderMenu);
-            order.setTotalPrice(orderMenu.getTotalPrice());
+            order.setTotalPrice(order.getTotalPrice());
 
         }
         order.setStatus(OrderStatus.ORDER);

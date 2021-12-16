@@ -6,30 +6,55 @@
     <script th:src="@{~/js/jquery.min.js}"></script>
 </head>
 <body>
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>주문번호</th>-->
-<!--        <th>주문총가격</th>-->
-<!--        <th>주문시간</th>-->
-<!--        <tr>-->
-<!--            <th>주문메뉴</th>-->
-<!--            <th>주문수량</th>-->
-<!--        </tr>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody th:each="orderList : ${orderMenuList}">-->
-<!--    <tr>-->
-<!--        <td th:text="${orderList.order_id}"></td>-->
-<!--        <td th:text="${orderList.price}"></td>-->
-<!--        <tr th:each="orderMenus : ${orderList.getOrderMenus()}">-->
-<!--            <td th:text="${orderMenus.menu.menu_name}"></td>-->
-<!--            <td th:text="${orderMenus.count}"></td>-->
-<!--            <td></td>-->
-<!--        </tr>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
+<table>
+    <thead>
+    <tr>
+        <th>주문번호</th>
+        <th>주문총가격</th>
+        <th>주문시간</th>
+        <tr>
+            <th>주문메뉴</th>
+            <th>주문수량</th>
+        </tr>
+    </tr>
+    </thead>
+    <tbody th:each="orderList : ${orderMenuList}">
+    <tr>
+        <td th:text="${orderList.order.id}"></td>
+        <td th:text="${orderList.order.totalPrice}"></td>
+        <tr th:each="orderMenus : ${orderList.getOrderMenus()}">
+            <td th:text="${orderMenus.menu.menu_name}"></td>
+            <td th:text="${orderMenus.count}"></td>
+        </tr>
+        <td><button type="button" class="order_complete">주문준비완료</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+
+        $('.order_complete').click(function () {
+            let order_id = $(this).closest("tr").parent().children().children().eq(0).text();
+
+            console.log(order_id);
+
+            $.ajax({
+                url: "/order/orderComplete/" + order_id,
+                method: "post",
+                contentType: 'application/json; charset=utf-8',
+            }).done(function () {
+                alert("주문이 완료되었습니다.");
+                location.reload();
+            }).fail(function (error) {
+                alert("주문이 실패하셨습니다");
+            });
+
+
+        });
+
+    });
+</script>
 
 </body>
 </html>
