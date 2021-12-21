@@ -98,4 +98,10 @@ public class AdminController {
         return "/admin/payManagement";
     }
 
+    @GetMapping("/chartManagement")
+    public String chartManagement() {
+
+        return "/admin/chartManagement";
+    }
+
 }

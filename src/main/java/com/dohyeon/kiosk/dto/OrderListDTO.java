@@ -32,5 +32,6 @@ public class OrderListDTO {
     public OrderListDTO(Order order) {
         this.order = order;
         this.orderMenus = order.getOrderMenus();
+        this.regDate = order.getRegDate();
     }
 }

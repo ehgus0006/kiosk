@@ -1,6 +1,10 @@
 package com.dohyeon.kiosk.controller;
 
+import com.dohyeon.kiosk.dao.AdminMapper;
 import com.dohyeon.kiosk.dto.AdminDTO;
+import com.dohyeon.kiosk.dto.ChartDTO;
+import com.dohyeon.kiosk.repository.BuyerRepository;
+import com.dohyeon.kiosk.repository.OrderRepository;
 import com.dohyeon.kiosk.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +16,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +27,9 @@ import java.util.List;
 public class AdminApiController {
 
     private final AdminService adminService;
+    private final OrderRepository orderRepository;
+    private final BuyerRepository buyerRepository;
+    private final AdminMapper adminMapper;
 
     // Json Id 중복검사
     @PostMapping("/idChk")
@@ -58,5 +67,42 @@ public class AdminApiController {
         String data = adminService.loginCheck(adminDTO);
 
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @PostMapping("/chart")
+    public Map<String, Object> chart(Model model) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 총 주문완료 수
+        int complete_count = orderRepository.AllOrderComplete();
+        System.out.println("총 주문완료 수 :" + complete_count);
+
+        // 총 주문취소 수
+        int cancel_count = orderRepository.AllOrderCancel();
+        System.out.println("총 주문취소 수 :" + cancel_count);
+
+        // 일별 총주문 가격
+        List<ChartDTO> glancePrice = adminMapper.DayPrice();
+
+        for (ChartDTO chartDTO : glancePrice) {
+            System.out.println(chartDTO.getDate());
+            System.out.println(chartDTO.getTotalPrice());
+        }
+
+        // 주간별 총주문 가격
+        List<ChartDTO> weeklyPrice = adminMapper.weeklyPrice();
+
+
+        // 월별 총주문 가격
+        List<ChartDTO> monthlyPrice = adminMapper.MonthPrice();
+
+
+
+        map.put("complete_count", complete_count);
+        map.put("cancel_count", cancel_count);
+        map.put("monthlyPrice", monthlyPrice);
+
+        return map;
     }
 }

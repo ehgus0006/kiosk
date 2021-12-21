@@ -11,11 +11,11 @@
     <tr>
         <th>주문번호</th>
         <th>주문총가격</th>
-        <th>주문시간</th>
         <tr>
             <th>주문메뉴</th>
             <th>주문수량</th>
         </tr>
+        <th>주문시간</th>
     </tr>
     </thead>
     <tbody th:each="orderList : ${orderMenuList}">
@@ -26,7 +26,8 @@
             <td th:text="${orderMenus.menu.menu_name}"></td>
             <td th:text="${orderMenus.count}"></td>
         </tr>
-        <td><button type="button" class="order_complete">주문준비완료</button></td>
+    <td th:text="${#temporals.format(orderList.regDate, 'yyyy/MM/dd HH:mm:ss')}"></td>
+    <td><button type="button" class="order_complete">주문준비완료</button></td>
     </tr>
     </tbody>
 </table>

@@ -1,5 +1,6 @@
 package com.dohyeon.kiosk.repository;
 
+import com.dohyeon.kiosk.dto.ChartDTO;
 import com.dohyeon.kiosk.entity.Order;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,4 +45,12 @@ public interface OrderRepository extends JpaRepository<Order , Long> {
     @Modifying
     @Query("update Order o set o.status='ORDER_END' where o.id=:order_id")
     void OrderEnd(Long order_id);
+
+    @Query("select count(o) from Order o where o.status='ORDER_COMPLETE'")
+    int AllOrderComplete();
+
+    @Query("select count(o) from Order o where o.status='CANCEL'")
+    int AllOrderCancel();
+
+
 }
