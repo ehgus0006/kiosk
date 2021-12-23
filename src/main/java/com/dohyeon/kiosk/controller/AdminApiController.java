@@ -3,6 +3,7 @@ package com.dohyeon.kiosk.controller;
 import com.dohyeon.kiosk.dao.AdminMapper;
 import com.dohyeon.kiosk.dto.AdminDTO;
 import com.dohyeon.kiosk.dto.ChartDTO;
+import com.dohyeon.kiosk.dto.QsaDTO;
 import com.dohyeon.kiosk.repository.BuyerRepository;
 import com.dohyeon.kiosk.repository.OrderRepository;
 import com.dohyeon.kiosk.service.AdminService;
@@ -76,31 +77,34 @@ public class AdminApiController {
 
         // 총 주문완료 수
         int complete_count = orderRepository.AllOrderComplete();
-        System.out.println("총 주문완료 수 :" + complete_count);
 
         // 총 주문취소 수
         int cancel_count = orderRepository.AllOrderCancel();
-        System.out.println("총 주문취소 수 :" + cancel_count);
 
         // 일별 총주문 가격
         List<ChartDTO> glancePrice = adminMapper.DayPrice();
 
-        for (ChartDTO chartDTO : glancePrice) {
-            System.out.println(chartDTO.getDate());
-            System.out.println(chartDTO.getTotalPrice());
-        }
-
         // 주간별 총주문 가격
         List<ChartDTO> weeklyPrice = adminMapper.weeklyPrice();
-
 
         // 월별 총주문 가격
         List<ChartDTO> monthlyPrice = adminMapper.MonthPrice();
 
+        // 일별 메뉴별 판매 수량
+        List<QsaDTO> glanceMenuSales = adminMapper.GlanceSalesAnalysis();
+
+        for (QsaDTO qsaDTO : glanceMenuSales) {
+            System.out.println(qsaDTO.getDate());
+            System.out.println(qsaDTO.getMenu_code());
+            System.out.println(qsaDTO.getMenu_price());
+            System.out.println(qsaDTO.getMenu_quantity());
+        }
 
 
         map.put("complete_count", complete_count);
         map.put("cancel_count", cancel_count);
+        map.put("glancePrice", glancePrice);
+        map.put("weeklyPrice", weeklyPrice);
         map.put("monthlyPrice", monthlyPrice);
 
         return map;

@@ -1,6 +1,7 @@
 package com.dohyeon.kiosk.dao;
 
 import com.dohyeon.kiosk.dto.ChartDTO;
+import com.dohyeon.kiosk.dto.QsaDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -24,4 +25,13 @@ public interface AdminMapper {
             "  FROM orders" +
             " GROUP BY `date`")
     List<ChartDTO> weeklyPrice();
+
+    @Select("SELECT DATE_FORMAT(order_menu.regdate, '%Y-%m-%d') AS `date`," +
+            "       sum(order_menu.order_price) AS menu_price," +
+            "       order_menu.menu_code," +
+            "       sum(order_menu.count) AS menu_quantity" +
+            "  FROM orders JOIN order_menu" +
+            "  ON orders.order_id=order_menu.order_id" +
+            " GROUP BY `date`,order_menu.menu_code")
+    List<QsaDTO>GlanceSalesAnalysis();
 }

@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #bar-chart {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
     <script th:src="@{~/js/jquery.min.js}"></script>
     <!-- chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 </head>
 <body>
-<canvas id="bar-chart" width="300" height="230"></canvas>
+<div class="storecount"></div>
+
+<canvas id="bar-chart-glancePrice"></canvas>
+<canvas id="bar-chart-weeklyPrice"></canvas>
+<canvas id="bar-chart-monthlyPrice"></canvas>
 
 <script>
 
 
     $(document).ready(function () {
         // getTimeStamp();
+
+        var chartData_glance = [];
+        var chartLabel_glance = [];
+        var chartData_weekly = [];
+        var chartLabel_weekly = [];
+        var chartData_monthly = [];
+        var chartLabel_monthly = [];
 
         $.ajax({ // $.ajax 와 동일한 표현
             url: '/admin/chart',
@@ -28,24 +45,76 @@
                     count += "<tr><td>총 주문취소 수</td><td>" + map.cancel_count + "</td></tr>"
 
                     $('.storecount').append(count);
+
+                    $.each(map.glancePrice, function (key, value) {
+                        chartData_glance.push(value.totalPrice);
+                        chartLabel_glance.push(value.date);
+                    });
+                    $.each(map.weeklyPrice, function (key, value) {
+                        chartData_weekly.push(value.totalPrice);
+                        chartLabel_weekly.push(value.date);
+                    });
+                    $.each(map.monthlyPrice, function (key, value) {
+                        chartData_monthly.push(value.totalPrice);
+                        chartLabel_monthly.push(value.date);
+                    });
+
                 }//if
-                new Chart(document.getElementById("bar-chart"), {
+                new Chart(document.getElementById("bar-chart-glancePrice"), {
                     type: 'bar',
                     data: {
-                        labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                        labels: chartLabel_glance,
                         datasets: [
                             {
-                                label: "Population (millions)",
-                                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                                data: [2478,5267,734,784,433]
+                                data: chartData_glance
                             }
                         ]
                     },
                     options: {
+                        responsive: false,
                         legend: { display: false },
                         title: {
                             display: true,
-                            text: 'Predicted world population (millions) in 2050'
+                            text: '일매출'
+                        }
+                    }
+                });
+                console.log(chartLabel_weekly)
+                new Chart(document.getElementById("bar-chart-weeklyPrice"), {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabel_weekly,
+                        datasets: [
+                            {
+                                data: chartData_weekly
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: '주간매출'
+                        }
+                    }
+                });
+                new Chart(document.getElementById("bar-chart-monthlyPrice"), {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabel_monthly,
+                        datasets: [
+                            {
+                                data: chartData_monthly
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: '월매출'
                         }
                     }
                 });
