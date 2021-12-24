@@ -29,9 +29,25 @@ public interface AdminMapper {
     @Select("SELECT DATE_FORMAT(order_menu.regdate, '%Y-%m-%d') AS `date`," +
             "       sum(order_menu.order_price) AS menu_price," +
             "       order_menu.menu_code," +
-            "       sum(order_menu.count) AS menu_quantity" +
+            "       sum(order_menu.count) AS menu_quantity," +
+            "       menu.menu_name" +
             "  FROM orders JOIN order_menu" +
             "  ON orders.order_id=order_menu.order_id" +
+            "  JOIN menu ON order_menu.menu_code=menu.menu_code" +
             " GROUP BY `date`,order_menu.menu_code")
     List<QsaDTO>GlanceSalesAnalysis();
+
+
+    @Select("SELECT DATE_FORMAT(DATE_SUB(order_menu.regdate, INTERVAL (DAYOFWEEK(order_menu.regdate)-1) DAY), '%Y/%m/%d') as start," +
+            "       DATE_FORMAT(DATE_SUB(order_menu.regdate, INTERVAL (DAYOFWEEK(order_menu.regdate)-7) DAY), '%Y/%m/%d') as end," +
+            "       DATE_FORMAT(order_menu.regdate, '%Y%U') AS `date`," +
+            "       sum(order_menu.order_price) AS menu_price," +
+            "       order_menu.menu_code," +
+            "       sum(order_menu.count) AS menu_quantity," +
+            "       menu.menu_name" +
+            "  FROM orders JOIN order_menu" +
+            "  ON orders.order_id=order_menu.order_id" +
+            "  JOIN menu ON order_menu.menu_code=menu.menu_code" +
+            " GROUP BY `date`, order_menu.menu_code")
+    List<QsaDTO>WeeklySalesAnalysis();
 }

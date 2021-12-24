@@ -4,7 +4,9 @@ import com.dohyeon.kiosk.dao.AdminMapper;
 import com.dohyeon.kiosk.dto.AdminDTO;
 import com.dohyeon.kiosk.dto.ChartDTO;
 import com.dohyeon.kiosk.dto.QsaDTO;
+import com.dohyeon.kiosk.entity.Menu;
 import com.dohyeon.kiosk.repository.BuyerRepository;
+import com.dohyeon.kiosk.repository.MenuRepository;
 import com.dohyeon.kiosk.repository.OrderRepository;
 import com.dohyeon.kiosk.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class AdminApiController {
     private final OrderRepository orderRepository;
     private final BuyerRepository buyerRepository;
     private final AdminMapper adminMapper;
+    private final MenuRepository menuRepository;
 
     // Json Id 중복검사
     @PostMapping("/idChk")
@@ -86,19 +89,28 @@ public class AdminApiController {
 
         // 주간별 총주문 가격
         List<ChartDTO> weeklyPrice = adminMapper.weeklyPrice();
+        for (ChartDTO chartDTO : weeklyPrice) {
+            chartDTO.weekly(chartDTO.getStart(), chartDTO.getEnd());
+        }
 
         // 월별 총주문 가격
         List<ChartDTO> monthlyPrice = adminMapper.MonthPrice();
 
-        // 일별 메뉴별 판매 수량
+        // 일별 메뉴별 판매 수량 및 매출
         List<QsaDTO> glanceMenuSales = adminMapper.GlanceSalesAnalysis();
 
-        for (QsaDTO qsaDTO : glanceMenuSales) {
-            System.out.println(qsaDTO.getDate());
-            System.out.println(qsaDTO.getMenu_code());
-            System.out.println(qsaDTO.getMenu_price());
-            System.out.println(qsaDTO.getMenu_quantity());
-        }
+//        for (QsaDTO qsaDTO : glanceMenuSales) {
+//            System.out.println(qsaDTO.getDate());
+//            System.out.println(qsaDTO.getMenu_code());
+//            System.out.println(qsaDTO.getMenu_price());
+//            System.out.println(qsaDTO.getMenu_quantity());
+//            System.out.println(qsaDTO.getMenu_name());
+//        }
+
+        // 주간별 메뉴별 판매 수량 및 매출
+        List<QsaDTO> weeklySalesAnalysis = adminMapper.WeeklySalesAnalysis();
+
+
 
 
         map.put("complete_count", complete_count);
@@ -106,6 +118,7 @@ public class AdminApiController {
         map.put("glancePrice", glancePrice);
         map.put("weeklyPrice", weeklyPrice);
         map.put("monthlyPrice", monthlyPrice);
+        map.put("glanceMenuSales", glanceMenuSales);
 
         return map;
     }

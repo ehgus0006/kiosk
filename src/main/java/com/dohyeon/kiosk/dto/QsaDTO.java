@@ -1,5 +1,6 @@
 package com.dohyeon.kiosk.dto;
 
+import com.dohyeon.kiosk.entity.Menu;
 import lombok.*;
 
 @NoArgsConstructor
@@ -13,6 +14,7 @@ public class QsaDTO {
 
     private String date;
     private int menu_price;
-    private int menu_code;
+    private Long menu_code;
     private int menu_quantity;
+    private String menu_name;
 }
