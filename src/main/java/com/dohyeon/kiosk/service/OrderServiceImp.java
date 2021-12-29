@@ -102,6 +102,36 @@ public class OrderServiceImp implements OrderService {
         orderRepository.OrderEnd(order_id);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<MenuDTO> findMenuPasta() {
+        return menuRepository.findMenuPasta().stream()
+                .map(MenuDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MenuDTO> findMenuSpecial() {
+        return menuRepository.findMenuSpecial().stream()
+                .map(MenuDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MenuDTO> findMenuPizza() {
+        return menuRepository.findMenuPizza().stream()
+                .map(MenuDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MenuDTO> findMenuSide() {
+        return menuRepository.findMenuSide().stream()
+                .map(MenuDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
     @Transactional
     @Override
     public void payment(BuyerDTO buyerDTO) {

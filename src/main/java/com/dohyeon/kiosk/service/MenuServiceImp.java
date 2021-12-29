@@ -35,6 +35,7 @@ public class MenuServiceImp implements MenuService{
                 .menu_priority(menuDTO.getMenu_priority())
                 .category(Category.valueOf(menuDTO.getCategory()))
                 .menu_stat("0")
+                .stockQuantity(menuDTO.getStockQuantity())
                 .admin(Admin.builder().admin_code(menuDTO.getAdmin_code()).build())
                 .build();
 

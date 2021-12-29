@@ -25,4 +25,12 @@ public interface OrderService {
     void orderComplete(Long order_id);
 
     void orderEnd(Long order_id);
+
+    List<MenuDTO> findMenuPasta();
+
+    List<MenuDTO> findMenuSpecial();
+
+    List<MenuDTO> findMenuPizza();
+
+    List<MenuDTO> findMenuSide();
 }

@@ -32,6 +32,9 @@
         var chartLabel_weekly = [];
         var chartData_monthly = [];
         var chartLabel_monthly = [];
+        let colorList = [];
+
+
 
         $.ajax({ // $.ajax 와 동일한 표현
             url: '/admin/chart',
@@ -49,18 +52,20 @@
                     $.each(map.glancePrice, function (key, value) {
                         chartData_glance.push(value.totalPrice);
                         chartLabel_glance.push(value.date);
+                        colorList.push(colorize())
                     });
                     $.each(map.weeklyPrice, function (key, value) {
                         chartData_weekly.push(value.totalPrice);
                         chartLabel_weekly.push(value.date);
+                        colorList.push(colorize())
                     });
                     $.each(map.monthlyPrice, function (key, value) {
                         chartData_monthly.push(value.totalPrice);
                         chartLabel_monthly.push(value.date);
+                        colorList.push(colorize())
                     });
-                    // $.each(map.glanceMenuSales, function (key, value) {
-                    //
-                    // });
+                    console.log(chartData_monthly)
+                    console.log(chartLabel_monthly)
 
                 }//if
                 new Chart(document.getElementById("bar-chart-glancePrice"), {
@@ -69,6 +74,7 @@
                         labels: chartLabel_glance,
                         datasets: [
                             {
+                                backgroundColor : colorList,
                                 data: chartData_glance
                             }
                         ]
@@ -83,12 +89,13 @@
                     }
                 });
                 console.log(chartLabel_weekly)
-                new Chart(document.getElementById("bar-chart-weeklyPrice"), {
+                var myChart = new Chart(document.getElementById("bar-chart-weeklyPrice"), {
                     type: 'bar',
                     data: {
                         labels: chartLabel_weekly,
                         datasets: [
                             {
+                                backgroundColor : colorList,
                                 data: chartData_weekly
                             }
                         ]
@@ -108,6 +115,7 @@
                         labels: chartLabel_monthly,
                         datasets: [
                             {
+                                backgroundColor : colorList,
                                 data: chartData_monthly
                             }
                         ]
@@ -126,6 +134,13 @@
                 console.log("chart ajax실패!!!");
             }
         });
+        function colorize() {
+            var r = Math.floor(Math.random()*200);
+            var g = Math.floor(Math.random()*200);
+            var b = Math.floor(Math.random()*200);
+            var color = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.7)';
+            return color;
+        }
 
     })//ready
 

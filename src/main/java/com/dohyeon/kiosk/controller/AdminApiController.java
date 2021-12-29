@@ -95,6 +95,10 @@ public class AdminApiController {
 
         // 월별 총주문 가격
         List<ChartDTO> monthlyPrice = adminMapper.MonthPrice();
+        for (ChartDTO chartDTO : monthlyPrice) {
+            System.out.println(chartDTO.getDate());
+            System.out.println(chartDTO.getTotalPrice());
+        }
 
         // 일별 메뉴별 판매 수량 및 매출
         List<QsaDTO> glanceMenuSales = adminMapper.GlanceSalesAnalysis();

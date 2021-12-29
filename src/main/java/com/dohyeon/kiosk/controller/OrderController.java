@@ -29,8 +29,26 @@ public class OrderController {
     @GetMapping("/orderMenu")
     public String orderMenu(Model model) {
 
-        List<MenuDTO> allMenu = orderService.findAllMenu();
-        model.addAttribute("allMenu", allMenu);
+//        List<MenuDTO> allMenu = orderService.findAllMenu();
+
+        // 스파게티
+        List<MenuDTO> menuPasta = orderService.findMenuPasta();
+
+        // 스페셜
+        List<MenuDTO> menuSpecial = orderService.findMenuSpecial();
+
+        // 피자
+        List<MenuDTO> menuPizza = orderService.findMenuPizza();
+
+        // 사이드
+        List<MenuDTO> menuSide = orderService.findMenuSide();
+
+
+//        model.addAttribute("allMenu", allMenu);
+        model.addAttribute("menuPasta", menuPasta);
+        model.addAttribute("menuSpecial", menuSpecial);
+        model.addAttribute("menuPizza", menuPizza);
+        model.addAttribute("menuSide", menuSide);
 
         return "/order/orderMenu";
     }
