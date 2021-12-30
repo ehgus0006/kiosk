@@ -3,19 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        a{
+            text-decoration: none;
+            color: black;
+        }
+
+        .admin{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .btn{
+            text-decoration: none;
+            font-size:5rem;
+            color:black;
+            padding:50px 100px 50px 100px;
+            margin:20px;
+            display:inline-block;
+            border-radius: 10px;
+            transition:all 0.1s;
+            font-family: 'Lobster', cursive;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+        .btn:active{
+            transform: translateY(3px);
+        }
+        .btn.blue{
+            background-color: #1f75d9;
+            border-bottom:5px solid #165195;
+            top: 25%;
+            left: 20%;
+        }
+        .btn.blue:active{
+            border-bottom:2px solid #165195;
+        }
+        .btn.red{
+            background-color: #ff521e;
+            border-bottom:5px solid #c1370e;
+            top: 25%;
+        }
+        .btn.red:active{
+            border-bottom:2px solid #c1370e;
+        }
+    </style>
 </head>
 <body>
-  메인화면
-  <a href="/order/orderMenu">주문하기</a>
+<div>
+    <a class="btn blue" href="/order/orderMenu">주문</a>
 
-  <br>
+    <br>
+    <a class="btn red" href="#">포장</a>
 
 
-  <a href="/order/orderStatus">주문현황</a>
+    <a href="/order/orderStatus">주문현황</a>
+</div>
+<br>
 
-  <br>
-
-  <a href="/admin/loginPage">관리자로그인</a>
+<a class="admin" href="/admin/loginPage">
+    <img th:src="@{~/img/봉대박.jpg}" width="30px" height="30px">
+</a>
 
 
 </body>

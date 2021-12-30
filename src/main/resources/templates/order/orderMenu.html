@@ -3,404 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .home {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin-left: 20px;
+            margin-top: 20px;
+            width: 75px;
+            height: 40px;
+            text-align: center;
+        }
+
+        .menuBtn {
+            margin-top: 50px;
+        }
+
+        .menuBtn button {
+            width: 150px;
+            height: 50px;
+            margin-left: 10px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+        }
+        .itemList {
+            width: 50%;
+        }
+
+        .pay {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            width: 150px;
+            height: 150px;
+            margin-right: 550px;
+        }
+        .pay td {
+            text-align: center;
+        }
+        .orderBtn {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            margin-right: 400px;
+            width: 150px;
+            height: 150px;
+        }
+
+
+    </style>
     <script th:src="@{~/js/jquery.min.js}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
           integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" th:href="@{~/assets/favicon.ico}" />
+    <link rel="icon" type="image/x-icon" th:href="@{~/assets/favicon.ico}"/>
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link th:href="@{~/css/styles.css}" rel="stylesheet" />
+    <link th:href="@{~/css/styles.css}" rel="stylesheet"/>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
-<!--    // SPAGHETTI, SPECIAL, PIZZA, SIDE-->
-<div style="text-align: center">
-    <button id="spaghetti" class="btn btn-light btn-lg">SPAGHETTI</button>
-    <button id="special" class="btn btn-light btn-lg">SPECIAL</button>
-    <button id="pizza" class="btn btn-light btn-lg">PIZZA</button>
-    <button id="side" class="btn btn-light btn-lg">SIDE</button>
-</div>
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="menuSpaghetti" th:each="menus : ${menuPasta}">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
-                             height="255"/>
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-                                <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
-                                <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-                                <!-- Product name-->
-                                <td th:text="${menus.menu_name}" class="menu_name"></td>
-                                <!-- Product price-->
-                                <br>
-                                <i class="fas fa-won-sign"></i>
-                                <td th:text="${menus.menu_price}" class="menu_price"></td>
-                                <br>
-                                <button type="button" class="itemBtn">장바구니</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menuSpecial" th:each="menus : ${menuSpecial}">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
-                             height="255"/>
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-                                <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
-                                <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-                                <!-- Product name-->
-                                <td th:text="${menus.menu_name}" class="menu_name"></td>
-                                <!-- Product price-->
-                                <br>
-                                <i class="fas fa-won-sign"></i>
-                                <td th:text="${menus.menu_price}" class="menu_price"></td>
-                                <br>
-                                <button type="button" class="itemBtn">장바구니</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menuPizza" th:each="menus : ${menuPizza}">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
-                             height="255"/>
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-                                <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
-                                <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-                                <!-- Product name-->
-                                <td th:text="${menus.menu_name}" class="menu_name"></td>
-                                <!-- Product price-->
-                                <br>
-                                <i class="fas fa-won-sign"></i>
-                                <td th:text="${menus.menu_price}" class="menu_price"></td>
-                                <br>
-                                <button type="button" class="itemBtn">장바구니</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menuSide" th:each="menus : ${menuSide}">
-                    <div class="card h-100" th:if="${menus.category == 'SIDE'}">
-                        <!-- Product image-->
-                        <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
-                             height="255"/>
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
-                                <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
-                                <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
-                                <!-- Product name-->
-                                <td th:text="${menus.menu_name}" class="menu_name"></td>
-                                <!-- Product price-->
-                                <br>
-                                <i class="fas fa-won-sign"></i>
-                                <td th:text="${menus.menu_price}" class="menu_price"></td>
-                                <br>
-                                <button type="button" class="itemBtn">장바구니</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+<header class="bg-opacity-50 bg-dark py-3">
+    <a href="/" class="btn btn-light home">HOME</a>
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">봉대박스파게티</h1>
+            <div class="menuBtn">
+                <button id="spaghetti" class="btn btn-light btn-lg">SPAGHETTI</button>
+                <button id="special" class="btn btn-light btn-lg">SPECIAL</button>
+                <button id="pizza" class="btn btn-light btn-lg">PIZZA</button>
+                <button id="side" class="btn btn-light btn-lg">SIDE</button>
             </div>
         </div>
+    </div>
+</header>
+<!--    // SPAGHETTI, SPECIAL, PIZZA, SIDE-->
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="menuSpaghetti" th:each="menus : ${menuPasta}">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
+                         height="255"/>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
+                            <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
+                            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
+                            <!-- Product name-->
+                            <td th:text="${menus.menu_name}" class="menu_name"></td>
+                            <!-- Product price-->
+                            <br>
+                            <i class="fas fa-won-sign"></i>
+                            <td th:text="${menus.menu_price}" class="menu_price"></td>
+                            <br>
+                            <button type="button" class="btn btn-warning itemBtn">메뉴담기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menuSpecial" th:each="menus : ${menuSpecial}">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
+                         height="255"/>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
+                            <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
+                            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
+                            <!-- Product name-->
+                            <td th:text="${menus.menu_name}" class="menu_name"></td>
+                            <!-- Product price-->
+                            <br>
+                            <i class="fas fa-won-sign"></i>
+                            <td th:text="${menus.menu_price}" class="menu_price"></td>
+                            <br>
+                            <button type="button" class="btn btn-warning itemBtn">메뉴담기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menuPizza" th:each="menus : ${menuPizza}">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
+                         height="255"/>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
+                            <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
+                            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
+                            <!-- Product name-->
+                            <td th:text="${menus.menu_name}" class="menu_name"></td>
+                            <!-- Product price-->
+                            <br>
+                            <i class="fas fa-won-sign"></i>
+                            <td th:text="${menus.menu_price}" class="menu_price"></td>
+                            <br>
+                            <button type="button" class="btn btn-warning itemBtn">메뉴담기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menuSide" th:each="menus : ${menuSide}">
+                <div class="card h-100" th:if="${menus.category == 'SIDE'}">
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="@{/display(fileName=${menus.img_url})}" width="255"
+                         height="255"/>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <input type="hidden" th:value="${menus.menu_code}" class="menu_code">
+                            <input type="hidden" th:value="${menus.menu_name}" class="menu_name">
+                            <input type="hidden" th:value="${menus.menu_price}" class="menu_price">
+                            <!-- Product name-->
+                            <td th:text="${menus.menu_name}" class="menu_name"></td>
+                            <!-- Product price-->
+                            <br>
+                            <i class="fas fa-won-sign"></i>
+                            <td th:text="${menus.menu_price}" class="menu_price"></td>
+                            <br>
+                            <button type="button" class="btn btn-warning itemBtn">메뉴담기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
-    </section>
+</section>
 
-    <!--<div class="menuSpaghetti" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPAGHETTI'}">-->
-    <!--    <div>-->
-    <!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
-    <!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
-    <!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
-    <!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
-    <!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
-    <!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
-    <!--        <br>-->
-    <!--        <i class="fas fa-won-sign"></i>-->
-    <!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
-    <!--        <br>-->
-    <!--        <button type="button" class="itemBtn">장바구니</button>-->
-    <!--    </div>-->
-    <!--</div>-->
+<!--<div class="menuSpaghetti" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPAGHETTI'}">-->
+<!--    <div>-->
+<!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
+<!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
+<!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
+<!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
+<!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
+<!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
+<!--        <br>-->
+<!--        <i class="fas fa-won-sign"></i>-->
+<!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
+<!--        <br>-->
+<!--        <button type="button" class="itemBtn">장바구니</button>-->
+<!--    </div>-->
+<!--</div>-->
 
-    <!--<div class="menuSpecial" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPECIAL'}">-->
-    <!--    <div>-->
-    <!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
-    <!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
-    <!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
-    <!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
-    <!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
-    <!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
-    <!--        <br>-->
-    <!--        <i class="fas fa-won-sign"></i>-->
-    <!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
-    <!--        <br>-->
-    <!--        <button type="button" class="itemBtn">장바구니</button>-->
-    <!--    </div>-->
-    <!--</div>-->
-    <!--<div class="menuPizza" th:each="menus : ${allMenu}" th:if="${menus.category == 'PIZZA'}">-->
-    <!--    <div>-->
-    <!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
-    <!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
-    <!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
-    <!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
-    <!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
-    <!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
-    <!--        <br>-->
-    <!--        <i class="fas fa-won-sign"></i>-->
-    <!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
-    <!--        <br>-->
-    <!--        <button type="button" class="itemBtn">장바구니</button>-->
-    <!--    </div>-->
-    <!--</div>-->
-    <!--<div class="menuSide" th:each="menus : ${allMenu}" th:if="${menus.category == 'SIDE'}">-->
-    <!--    <div>-->
-    <!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
-    <!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
-    <!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
-    <!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
-    <!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
-    <!--        <td th:text="${menus.menu_name}"></td>-->
-    <!--        <br>-->
-    <!--        <i class="fas fa-won-sign"></i>-->
-    <!--        <td th:text="${menus.menu_price}"></td>-->
-    <!--        <br>-->
-    <!--        <button type="button" class="itemBtn">장바구니</button>-->
-    <!--    </div>-->
-    <!--</div>-->
-    <hr>
+<!--<div class="menuSpecial" th:each="menus : ${allMenu}" th:if="${menus.category == 'SPECIAL'}">-->
+<!--    <div>-->
+<!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
+<!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
+<!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
+<!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
+<!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
+<!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
+<!--        <br>-->
+<!--        <i class="fas fa-won-sign"></i>-->
+<!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
+<!--        <br>-->
+<!--        <button type="button" class="itemBtn">장바구니</button>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="menuPizza" th:each="menus : ${allMenu}" th:if="${menus.category == 'PIZZA'}">-->
+<!--    <div>-->
+<!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
+<!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
+<!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
+<!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
+<!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
+<!--        <td th:text="${menus.menu_name}" class="menu_name"></td>-->
+<!--        <br>-->
+<!--        <i class="fas fa-won-sign"></i>-->
+<!--        <td th:text="${menus.menu_price}" class="menu_price"></td>-->
+<!--        <br>-->
+<!--        <button type="button" class="itemBtn">장바구니</button>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="menuSide" th:each="menus : ${allMenu}" th:if="${menus.category == 'SIDE'}">-->
+<!--    <div>-->
+<!--        <input type="hidden" th:value="${menus.menu_code}" class="menu_code">-->
+<!--        <input type="hidden" th:value="${menus.menu_name}" class="menu_name">-->
+<!--        <input type="hidden" th:value="${menus.menu_price}" class="menu_price">-->
+<!--        <img th:if="${menus.img_url != null}" th:src="@{/display(fileName=${menus.img_url})}" alt="250x250"><br>-->
+<!--        <img th:if="${menus.img_url == null}" th:src="@{~/img/noImg.png}" alt="250x250"><br>-->
+<!--        <td th:text="${menus.menu_name}"></td>-->
+<!--        <br>-->
+<!--        <i class="fas fa-won-sign"></i>-->
+<!--        <td th:text="${menus.menu_price}"></td>-->
+<!--        <br>-->
+<!--        <button type="button" class="itemBtn">장바구니</button>-->
+<!--    </div>-->
+<!--</div>-->
+<hr>
 
+<div class="footer">
     <div class="itemList">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>제품</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
 
     </div>
-
-    <div class="total">
+    <div class="pay">
+        <div class="total"></div>
+        <hr>
+        할인금액 : <td>0</td>
+        <hr>
+        <div class="total"></div>
     </div>
-    <button type="button" class="orderBtn">주문하기</button>
+    <button type="button" class="btn btn-warning orderBtn">결제</button>
 
 
-    <script>
-        $(document).ready(function () {
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.menuSpaghetti').show();
+        $('.menuSpecial').hide();
+        $('.menuPizza').hide();
+        $('.menuSide').hide();
+        $('.footer').hide();
+
+        var price = 0;
+        var arr_title = []; // 봉골레파스타
+        var content;
+        var count = 1;
+        var i = 0;
+
+
+        $('.itemBtn').click(function () {
+            $('.footer').show();
+
+
+            var menu_code = $(this).siblings('.menu_code').val();
+            var menu_name = $(this).siblings('.menu_name').val();
+            var menu_price = $(this).siblings('.menu_price').val();
+
+
+            i++;
+            console.log(Object.entries(arr_title));
+            const j = arr_title.findIndex(i => i.name == menu_name)//객체 배열의 인덱스 찾는법
+            if (j != -1) {  //배열에 menu_title이 있는지 확인
+                arr_title[j].rcount++;
+                console.log("rcount" + arr_title[j].rcount)
+
+                let str = ""
+                str += "<tr class='a" + i + "'>"
+                str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
+                str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
+                str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
+                str += `<input type="hidden" value="${count}" class="count">`;
+                str += "<td class>" + menu_name + "</td>"
+                str += "<td class>" + menu_price + "&nbsp;&nbsp;</td>"
+                str += "<td class='count'>" + arr_title[j].rcount + "</td>"
+                str += "<td><button class='btn btn-light orderDelete' >삭제</button></td></tr>"
+                $('.itemList table tbody').children().eq(j).replaceWith(str)
+            } else {
+                let str = "";
+                str += "<tr class='a" + i + "'>";
+                str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
+                str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
+                str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
+                str += `<input type="hidden" value="${count}" class="count">`;
+                str += "<td>" + menu_name + "</td>";
+                str += "<td>" + menu_price + "&nbsp;&nbsp;</td>";
+                str += "<td class='count'>" + count + "</td>"
+                str += "<td><button class='btn btn-light orderDelete'>삭제</button></td></tr>";
+
+                arr_title.push({
+                    'name': menu_name,
+                    'price': menu_price,
+                    'rcount': count,
+                    'menu_code': menu_code
+                });
+                $('.itemList table tbody').append(str);
+
+            }
+            price += parseInt(menu_price);
+
+            content += "<td class='total' > 주문금액 : " + price + "</td></tr>"
+            console.log("총급액은 " + price);
+
+            $('.total').replaceWith(content);
+
+            $('.allPrice').attr("value", price);
+            $('.orderDelete').off('click').on("click", orderDelete);
+        });
+
+
+        function orderDelete() {
+
+            // var menu_code2 = $(this).siblings('.menu_code2').val();
+            var menu_name2 = $(this).closest("tr").children().eq(4).text();
+            var menu_price2 = $(this).closest("tr").children().eq(5).text();
+            count = $(this).closest("tr").children().eq(6).text();
+            console.log(menu_name2)
+            console.log(menu_price2)
+            console.log(count)
+            $(this).closest("tr").remove();//삭제
+
+            // 삭제시 총 금액
+            price -= menu_price2 * count
+            content += "<td class='total' > 주문금액: " + price + "</td></tr>"
+            $('.total').replaceWith(content)
+
+            const j = arr_title.findIndex(i => i.name == menu_name2)
+            console.log(j);
+            arr_title.splice(j, 1); //배열 삭제
+            count = 1;
+        }
+
+        $(".orderBtn").click(function () {
+
+
+            // console.log(Object.entries(arr_title));
+            // total price 배열로 받는부분 위에서 같이 받아야함
+
+            // const totalPrice = $('.total').text();
+            //
+            // const total = totalPrice.substring(7, 12);
+            //
+            // console.log(total);
+            //
+            // arr_title.push(total);
+            // 객체를 배열로 바꾸는 방법
+            var arr_data = Array.from(arr_title);
+
+            console.log(arr_data);
+
+            // 객체를 보내서 List<Map<String, String>> 변수 타입으로 값 받기
+
+            $.ajax({
+                url: '/order/orderMenu',
+                type: 'post',
+                dataType: "json",
+                data: JSON.stringify(arr_data),
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    console.log(result);
+                    var IMP = window.IMP;
+                    IMP.init('imp07054769');
+                    // 원래는 amount 에 실제 결제금액 final_price를 넣어야 된다
+                    IMP.request_pay({
+                            pg: 'inicis', // version 1.1.0부터 지원.
+                            pay_method: 'card',
+                            merchant_uid: 'merchant_' + new Date().getTime(),
+                            name: '주문명:결제테스트',
+                            amount: 100,
+                            m_redirect_url: 'https://www.yourdomain.com/payments/complete'
+                        },
+                        function (rsp) {
+                            if (rsp.success) {
+                                console.log(rsp);
+                                let payment = {
+                                    imp_uid: rsp.imp_uid,
+                                    merchant_uid: rsp.merchant_uid,
+                                    pay_method: rsp.pay_method,
+                                    all_price: 100,
+                                    apply_num: rsp.apply_num,
+                                    order_id: result
+                                };
+                                $.ajax({
+                                    url: "/order/payment/",
+                                    method: "post",
+                                    data: JSON.stringify(payment),
+                                    contentType: 'application/json; charset=utf-8',
+                                }).done(function (data) {
+                                    console.log(data);
+
+                                    alert("주문번호는" + data.order_id + "번 입니다.");
+                                    location.href = "/";
+                                }).fail(function (error) {
+                                    alert("실패하였습니다");
+                                });
+                            } else {
+                                alert("결제에 실패하였습니다.");
+                                var msg = '결제에 실패하였습니다.';
+                                msg += '에러내용 : ' + rsp.error_msg;
+                            }
+                        });
+                },
+                error: function () {
+                    alert("실패")
+                }
+            })
+
+
+        });
+
+        $('#spaghetti').click(function () {
             $('.menuSpaghetti').show();
             $('.menuSpecial').hide();
             $('.menuPizza').hide();
             $('.menuSide').hide();
-
-            var price = 0;
-            var arr_title = []; // 봉골레파스타
-            var content;
-            var count = 1;
-            var i = 0;
-
-
-            $('.itemBtn').click(function () {
-
-                var menu_code = $(this).siblings('.menu_code').val();
-                var menu_name = $(this).siblings('.menu_name').val();
-                var menu_price = $(this).siblings('.menu_price').val();
-
-                console.log(menu_code)
-                console.log(menu_name)
-                console.log(menu_price)
-
-                i++;
-                console.log(Object.entries(arr_title));
-                const j = arr_title.findIndex(i => i.name == menu_name)//객체 배열의 인덱스 찾는법
-                if (j != -1) {  //배열에 menu_title이 있는지 확인
-                    arr_title[j].rcount++;
-                    console.log("rcount" + arr_title[j].rcount)
-
-                    let str = ""
-                    str += "<tr class='a" + i + "'>"
-                    str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
-                    str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
-                    str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
-                    str += `<input type="hidden" value="${count}" class="count">`;
-                    str += "<td class>" + menu_name + "</td>"
-                    str += "<td class>" + menu_price + "&nbsp;&nbsp;</td>"
-                    str += "<td class='count'>" + arr_title[j].rcount + "</td>"
-                    str += "<td><button class='orderDelete' >삭제</button></td></tr>"
-                    $('.itemList').children().eq(j).replaceWith(str)
-                } else {
-                    let str = "";
-                    str += "<tr class='a" + i + "'>";
-                    str += `<input type="hidden" value="${menu_code}" class="menu_code2">`;
-                    str += `<input type="hidden" value="${menu_name}" class="menu_name2">`;
-                    str += `<input type="hidden" value="${menu_price}" class="menu_price2">`;
-                    str += `<input type="hidden" value="${count}" class="count">`;
-                    str += "<td>" + menu_name + "</td>";
-                    str += "<td>" + menu_price + "&nbsp;&nbsp;</td>";
-                    str += "<td class='count'>" + count + "</td>"
-                    str += "<td><button class='orderDelete'>삭제</button></td></tr>";
-
-                    arr_title.push({
-                        'name': menu_name,
-                        'price': menu_price,
-                        'rcount': count,
-                        'menu_code': menu_code
-                    });
-                    $('.itemList').append(str);
-
-                }
-                price += parseInt(menu_price);
-
-                content += "<td class='total' > 총 금액: " + price + "</td></tr>"
-                console.log("총급액은 " + price);
-
-                $('.total').replaceWith(content);
-
-                $('.allPrice').attr("value", price);
-                $('.orderDelete').off('click').on("click", orderDelete);
-            });
-
-
-            function orderDelete() {
-
-                // var menu_code2 = $(this).siblings('.menu_code2').val();
-                var menu_name2 = $(this).closest("tr").children().eq(4).text();
-                var menu_price2 = $(this).closest("tr").children().eq(5).text();
-                count = $(this).closest("tr").children().eq(6).text();
-                console.log(menu_name2)
-                console.log(menu_price2)
-                console.log(count)
-                $(this).closest("tr").remove();//삭제
-
-                // 삭제시 총 금액
-                price -= menu_price2 * count
-                content += "<td class='total' > 총 금액: " + price + "</td></tr>"
-                $('.total').replaceWith(content)
-
-                const j = arr_title.findIndex(i => i.name == menu_name2)
-                console.log(j);
-                arr_title.splice(j, 1); //배열 삭제
-                count = 1;
-            }
-
-            $(".orderBtn").click(function () {
-
-
-                // console.log(Object.entries(arr_title));
-                // total price 배열로 받는부분 위에서 같이 받아야함
-
-                // const totalPrice = $('.total').text();
-                //
-                // const total = totalPrice.substring(7, 12);
-                //
-                // console.log(total);
-                //
-                // arr_title.push(total);
-                // 객체를 배열로 바꾸는 방법
-                var arr_data = Array.from(arr_title);
-
-                console.log(arr_data);
-
-                // 객체를 보내서 List<Map<String, String>> 변수 타입으로 값 받기
-
-                $.ajax({
-                    url: '/order/orderMenu',
-                    type: 'post',
-                    dataType: "json",
-                    data: JSON.stringify(arr_data),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                        console.log(result);
-                        var IMP = window.IMP;
-                        IMP.init('imp07054769');
-                        // 원래는 amount 에 실제 결제금액 final_price를 넣어야 된다
-                        IMP.request_pay({
-                                pg: 'inicis', // version 1.1.0부터 지원.
-                                pay_method: 'card',
-                                merchant_uid: 'merchant_' + new Date().getTime(),
-                                name: '주문명:결제테스트',
-                                amount: 100,
-                                m_redirect_url: 'https://www.yourdomain.com/payments/complete'
-                            },
-                            function (rsp) {
-                                if (rsp.success) {
-                                    console.log(rsp);
-                                    let payment = {
-                                        imp_uid: rsp.imp_uid,
-                                        merchant_uid: rsp.merchant_uid,
-                                        pay_method: rsp.pay_method,
-                                        all_price: 100,
-                                        apply_num: rsp.apply_num,
-                                        order_id: result
-                                    };
-                                    $.ajax({
-                                        url: "/order/payment/",
-                                        method: "post",
-                                        data: JSON.stringify(payment),
-                                        contentType: 'application/json; charset=utf-8',
-                                    }).done(function (data) {
-                                        console.log(data);
-
-                                        alert("주문번호는" + data.order_id + "번 입니다.");
-                                        location.href = "/";
-                                    }).fail(function (error) {
-                                        alert("실패하였습니다");
-                                    });
-                                } else {
-                                    alert("결제에 실패하였습니다.");
-                                    var msg = '결제에 실패하였습니다.';
-                                    msg += '에러내용 : ' + rsp.error_msg;
-                                }
-                            });
-                    },
-                    error: function () {
-                        alert("실패")
-                    }
-                })
-
-
-            });
-
-            $('#spaghetti').click(function () {
-                $('.menuSpaghetti').show();
-                $('.menuSpecial').hide();
-                $('.menuPizza').hide();
-                $('.menuSide').hide();
-            });
-
-            $('#special').click(function () {
-                $('.menuSpaghetti').hide();
-                $('.menuSpecial').show();
-                $('.menuPizza').hide();
-                $('.menuSide').hide();
-            });
-            $('#pizza').click(function () {
-                $('.menuSpaghetti').hide();
-                $('.menuSpecial').hide();
-                $('.menuPizza').show();
-                $('.menuSide').hide();
-            });
-            $('#side').click(function () {
-                $('.menuSpaghetti').hide();
-                $('.menuSpecial').hide();
-                $('.menuPizza').hide();
-                $('.menuSide').show();
-            });
         });
-    </script>
+
+        $('#special').click(function () {
+            $('.menuSpaghetti').hide();
+            $('.menuSpecial').show();
+            $('.menuPizza').hide();
+            $('.menuSide').hide();
+        });
+        $('#pizza').click(function () {
+            $('.menuSpaghetti').hide();
+            $('.menuSpecial').hide();
+            $('.menuPizza').show();
+            $('.menuSide').hide();
+        });
+        $('#side').click(function () {
+            $('.menuSpaghetti').hide();
+            $('.menuSpecial').hide();
+            $('.menuPizza').hide();
+            $('.menuSide').show();
+        });
+    });
+</script>
 </body>
 </html>
